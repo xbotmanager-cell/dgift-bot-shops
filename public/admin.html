@@ -62,6 +62,10 @@
     button:hover {
       background: #0ea5e9;
     }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
     .message {
       padding: 12px;
       border-radius: 8px;
@@ -80,11 +84,13 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 15px;
+      overflow-x: auto;
     }
     th, td {
       padding: 12px;
       text-align: left;
       border-bottom: 1px solid #334155;
+      word-break: break-all;
     }
     th {
       color: #94a3b8;
@@ -105,7 +111,7 @@
       <input type="text" id="image_url" placeholder="Image URL from ibb.co">
       <input type="text" id="secret_key" placeholder="Secret Key" required>
       <input type="text" id="render_link" placeholder="Render Deploy Link">
-      <button onclick="addBot()">Add Bot</button>
+      <button id="addBtn" onclick="addBot()">Add Bot</button>
       <div id="message" class="message"></div>
     </div>
 
@@ -128,49 +134,74 @@
 
   <script>
     async function addBot() {
+      const btn = document.getElementById('addBtn')
       const data = {
-        id: document.getElementById('id').value,
-        bot_name: document.getElementById('bot_name').value,
-        image_url: document.getElementById('image_url').value,
-        secret_key: document.getElementById('secret_key').value,
-        render_link: document.getElementById('render_link').value
+        id: document.getElementById('id').value.trim(),
+        bot_name: document.getElementById('bot_name').value.trim(),
+        image_url: document.getElementById('image_url').value.trim(),
+        secret_key: document.getElementById('secret_key').value.trim(),
+        render_link: document.getElementById('render_link').value.trim()
       }
 
-      const res = await fetch('/api/add-bot', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
+      if (!data.id || !data.bot_name || !data.secret_key) {
+        showMessage('ID, Name na Secret Key ni lazima', false)
+        return
+      }
 
-      const result = await res.json()
-      showMessage(result.success ? 'Bot added successfully!' : result.error, result.success)
-      
-      if (result.success) {
-        document.getElementById('id').value = ''
-        document.getElementById('bot_name').value = ''
-        document.getElementById('image_url').value = ''
-        document.getElementById('secret_key').value = ''
-        document.getElementById('render_link').value = ''
-        loadBots()
+      btn.disabled = true
+      btn.textContent = 'Adding...'
+
+      try {
+        const res = await fetch('/api/add-bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+
+        const result = await res.json()
+        showMessage(result.success ? 'Bot added successfully!' : result.error, result.success)
+        
+        if (result.success) {
+          document.getElementById('id').value = ''
+          document.getElementById('bot_name').value = ''
+          document.getElementById('image_url').value = ''
+          document.getElementById('secret_key').value = ''
+          document.getElementById('render_link').value = ''
+          loadBots()
+        }
+      } catch (err) {
+        showMessage('Network error', false)
+      } finally {
+        btn.disabled = false
+        btn.textContent = 'Add Bot'
       }
     }
 
     async function loadBots() {
-      const res = await fetch('/api/bots')
-      const result = await res.json()
-      const tbody = document.querySelector('#botsTable tbody')
-      tbody.innerHTML = ''
+      try {
+        const res = await fetch('/api/bots')
+        const result = await res.json()
+        const tbody = document.querySelector('#botsTable tbody')
+        tbody.innerHTML = ''
 
-      result.bots.forEach(bot => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${bot.id}</td>
-            <td>${bot.bot_name}</td>
-            <td class="status-${bot.status}">${bot.status}</td>
-            <td>${bot.secret_key}</td>
-          </tr>
-        `
-      })
+        if (!result.bots || result.bots.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No bots yet</td></tr>'
+          return
+        }
+
+        result.bots.forEach(bot => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${bot.id}</td>
+              <td>${bot.bot_name}</td>
+              <td class="status-${bot.status}">${bot.status}</td>
+              <td>${bot.secret_key || 'N/A'}</td>
+            </tr>
+          `
+        })
+      } catch (err) {
+        showMessage('Failed to load bots', false)
+      }
     }
 
     function showMessage(msg, isSuccess) {
