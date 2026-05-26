@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DGIFT Bot Store</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding-bottom: 80px;
+      overflow-x: hidden;
+    }
+    header {
+      background: #1e293b;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    header h1 {
+      font-size: 24px;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+   .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+   .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 768px) {
+     .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+     .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+   .card {
+      background: #1e293b;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transition: transform 0.2s;
+    }
+   .card:hover { transform: translateY(-5px); }
+   .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #334155;
+    }
+   .card-content { padding: 20px; }
+   .card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #f8fafc;
+    }
+   .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+   .badge-available {
+      background: #166534;
+      color: #4ade80;
+    }
+   .buy-btn {
+      width: 100%;
+      padding: 14px;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+   .buy-btn:hover { background: #0ea5e9; }
+   .buy-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+   .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+   .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+   .modal-content {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+   .modal.active.modal-content {
+      transform: translateY(0);
+    }
+   .modal h2 {
+      margin-bottom: 20px;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+   .payment-box {
+      background: #334155;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+   .payment-box p {
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+   .key-input {
+      width: 100%;
+      padding: 14px;
+      background: #334155;
+      border: 2px solid #475569;
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-size: 16px;
+      margin: 15px 0;
+    }
+   .key-input:focus {
+      outline: none;
+      border-color: #38bdf8;
+    }
+   .close-btn {
+      background: #475569;
+      color: #e2e8f0;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      width: 100%;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+   .loading,.empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #94a3b8;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      opacity: 0;
+      transition: all 0.3s;
+      max-width: 90%;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    #toast.success { border-left: 4px solid #4ade80; }
+    #toast.error { border-left: 4px solid #f87171; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i data-lucide="bot"></i> DGIFT Bot Store</h1>
+  </header>
+
+  <div class="container">
+    <div id="loading" class="loading">
+      <i data-lucide="loader-circle"></i> Loading bots...
+    </div>
+    <div id="grid" class="grid" style="display:none;"></div>
+    <div id="empty" class="empty" style="display:none;">
+      <i data-lucide="package-x" style="width:48px;height:48px;margin-bottom:10px;"></i>
+      <p>No bots available right now</p>
+    </div>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2><i data-lucide="shopping-cart"></i> Buy Bot</h2>
+      <div class="payment-box">
+        <p><i data-lucide="phone"></i> <strong>Pay to:</strong> 255780470905</p>
+        <p><i data-lucide="user"></i> <strong>Name:</strong> LIGHTNESS REGINALD</p>
+        <p><i data-lucide="smartphone"></i> <strong>Method:</strong> M-Pesa / Airtel Money / Mini Pay App</p>
+        <p><i data-lucide="info"></i> Lipa kwanza, kisha weka secret key yako hapo chini</p>
+      </div>
+
+      <input type="text" id="secretKey" class="key-input" placeholder="Weka secret key yako hapa">
+      <button class="buy-btn" id="activateBtn" onclick="activateBot()">
+        <i data-lucide="key"></i> Activate Bot
+      </button>
+      <button class="close-btn" onclick="closeModal()">Funga</button>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    lucide.createIcons();
+    let selectedBot = null;
+    let touchStartX = 0;
+
+    async function loadBots() {
+      try {
+        const res = await fetch('/api/bots')
+        const result = await res.json()
+
+        document.getElementById('loading').style.display = 'none'
+
+        if (!result.bots || result.bots.length === 0) {
+          document.getElementById('empty').style.display = 'block'
+          return
+        }
+
+        document.getElementById('grid').style.display = 'grid'
+        const grid = document.getElementById('grid')
+        grid.innerHTML = ''
+
+        result.bots.forEach(bot => {
+          grid.innerHTML += `
+            <div class="card">
+              <img src="${bot.image_url || 'https://via.placeholder.com/400x200/1e293b/38bdf8?text=Bot'}" alt="${bot.bot_name}">
+              <div class="card-content">
+                <h3>${bot.bot_name}</h3>
+                <span class="badge badge-available">Available</span>
+                <button class="buy-btn" onclick="openModal('${bot.id}')">
+                  <i data-lucide="shopping-cart"></i> Buy Now
+                </button>
+              </div>
+            </div>
+          `
+        })
+        lucide.createIcons()
+      } catch (err) {
+        showToast('Failed to load bots', 'error')
+        document.getElementById('loading').style.display = 'none'
+      }
+    }
+
+    function openModal(botId) {
+      selectedBot = botId
+      document.getElementById('modal').classList.add('active')
+      document.body.style.overflow = 'hidden'
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active')
+      document.body.style.overflow = 'auto'
+      document.getElementById('secretKey').value = ''
+    }
+
+    // Close modal when clicking outside or swipe
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target.id === 'modal') closeModal()
+    })
+
+    document.getElementById('modal').addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX
+    })
+
+    document.getElementById('modal').addEventListener('touchend', (e) => {
+      let touchEndX = e.changedTouches[0].clientX
+      if (Math.abs(touchStartX - touchEndX) > 100) closeModal()
+    })
+
+    async function activateBot() {
+      const key = document.getElementById('secretKey').value.trim()
+      const btn = document.getElementById('activateBtn')
+
+      if (!key) {
+        showToast('Tafadhali weka secret key', 'error')
+        return
+      }
+
+      btn.disabled = true
+      btn.innerHTML = '<i data-lucide="loader-circle"></i> Verifying...'
+
+      try {
+        const res = await fetch('/api/buy-bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ secret_key: key })
+        })
+
+        const result = await res.json()
+
+        if (result.success) {
+          showToast('Bot imeactivate! Inafungua link...', 'success')
+          setTimeout(() => {
+            if (result.render_link) {
+              window.open(result.render_link, '_blank')
+            }
+            closeModal()
+            loadBots()
+          }, 1500)
+        } else {
+          showToast(result.error || 'Key si sahihi', 'error')
+        }
+      } catch (err) {
+        showToast('Network error. Jaribu tena', 'error')
+      } finally {
+        btn.disabled = false
+        btn.innerHTML = '<i data-lucide="key"></i> Activate Bot'
+        lucide.createIcons()
+      }
+    }
+
+    function showToast(message, type) {
+      const toast = document.getElementById('toast')
+      toast.className = `show ${type}`
+      toast.innerHTML = `<i data-lucide="${type === 'success'? 'check-circle' : 'alert-circle'}"></i> ${message}`
+      lucide.createIcons()
+
+      setTimeout(() => {
+        toast.classList.remove('show')
+      }, 3000)
+    }
+
+    loadBots()
+  </script>
+</body>
+</html>
