@@ -6,14 +6,15 @@
 <title>Dgift Shops - Own Your WhatsApp Bot</title>
 <style>
   :root {
-    --black: #000;
-    --glass: rgba(20,20,30,0.4);
+    --black: #0a0a0a;
+    --dark-black: #050505;
+    --glass: rgba(18, 22, 28, 0.45);
     --green: #00ff88;
-    --purple: #8b00ff;
-    --cyan: #00f5ff;
-    --pink: #ff00c8;
-    --text: #e6e6e6;
-    --muted: #9aa0a6;
+    --purple: #8b5cf6;
+    --gold: #facc15;
+    --light-green: #4ade80;
+    --text: #f5f5f5;
+    --muted: #a3a3a3;
   }
 
     * {
@@ -36,53 +37,87 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at 20% 20%, rgba(139,0,255,0.3), transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0,245,255,0.2), transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(255,0,200,0.15), transparent 50%);
-    filter: blur(80px);
+    background: radial-gradient(circle at 20% 20%, rgba(139,92,246,0.25), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0,255,136,0.2), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(250,204,21,0.18), transparent 50%);
+    filter: blur(100px);
     z-index: -1;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(5%, 5%) scale(1.05); }
   }
 
   .glass {
     background: var(--glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 28px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    transition: all 0.4s ease;
   }
 
-  .glow-green { box-shadow: 0 0 20px rgba(0,255,136,0.4); }
-  .glow-cyan { box-shadow: 0 0 20px rgba(0,245,255,0.4); }
-  .glow-pink { box-shadow: 0 0 20px rgba(255,0,200,0.4); }
+  .glass:hover {
+    border: 1px solid rgba(0,255,136,0.2);
+    box-shadow: 0 12px 50px rgba(0,0,0,0.8);
+  }
+
+  .glow-green { box-shadow: 0 0 30px rgba(0,255,136,0.35); }
+  .glow-purple { box-shadow: 0 0 30px rgba(139,92,246,0.35); }
+  .glow-gold { box-shadow: 0 0 30px rgba(250,204,21,0.35); }
 
   .btn {
-    padding: 16px 32px;
+    padding: 16px 36px;
     border-radius: 50px;
     border: none;
     font-weight: 600;
     font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: inline-block;
     text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+  }
+
+  .btn:hover::before {
+    left: 100%;
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, var(--cyan), var(--pink));
-    color: #000;
+    background: linear-gradient(135deg, var(--purple), var(--green));
+    color: var(--black);
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0,245,255,0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(139,92,246,0.5);
   }
 
   .btn-buy {
-    background: linear-gradient(135deg, var(--green), var(--cyan));
-    color: #000;
+    background: linear-gradient(135deg, var(--gold), var(--green));
+    color: var(--black);
     width: 100%;
     margin-top: 20px;
+  }
+
+  .btn-buy:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(250,204,21,0.5);
   }
 
   .container {
@@ -105,10 +140,18 @@
     font-size: 48px;
     line-height: 1.2;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, var(--cyan), var(--pink), var(--green));
+    background: linear-gradient(135deg, var(--green), var(--gold), var(--purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: shimmer 3s linear infinite;
+    background-size: 200% 200%;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   .hero p {
@@ -129,6 +172,9 @@
     text-align: center;
     font-size: 36px;
     margin-bottom: 50px;
+    background: linear-gradient(135deg, var(--purple), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .feature-grid {
@@ -139,12 +185,30 @@
   .feature-card {
     padding: 30px;
     text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple), var(--green), var(--gold));
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
   }
 
   .feature-card h3 {
     font-size: 22px;
     margin-bottom: 12px;
-    color: var(--cyan);
+    color: var(--light-green);
   }
 
   .feature-card p {
@@ -160,6 +224,12 @@
 
   .shop.active {
     display: block;
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .shop-header {
@@ -170,6 +240,9 @@
   .shop-header h2 {
     font-size: 32px;
     margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--gold), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .shop-header p {
@@ -187,11 +260,11 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
   }
 
   .bot-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px) scale(1.01);
   }
 
   .bot-avatar {
@@ -199,8 +272,8 @@
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--cyan);
-    box-shadow: 0 0 15px rgba(0,245,255,0.5);
+    border: 2px solid var(--green);
+    box-shadow: 0 0 20px rgba(0,255,136,0.4);
     flex-shrink: 0;
   }
 
@@ -231,7 +304,7 @@
     gap: 6px;
     font-size: 13px;
     font-weight: 600;
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     margin-top: 8px;
   }
@@ -239,11 +312,13 @@
   .status.online {
     background: rgba(0,255,136,0.15);
     color: var(--green);
+    border: 1px solid rgba(0,255,136,0.3);
   }
 
   .status.offline {
-    background: rgba(255,0,200,0.15);
-    color: var(--pink);
+    background: rgba(139,92,246,0.15);
+    color: var(--purple);
+    border: 1px solid rgba(139,92,246,0.3);
   }
 
   .status-dot {
@@ -255,15 +330,17 @@
 
   .status.online .status-dot {
     background: var(--green);
+    box-shadow: 0 0 10px var(--green);
   }
 
   .status.offline .status-dot {
-    background: var(--pink);
+    background: var(--purple);
+    box-shadow: 0 0 10px var(--purple);
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
   }
 
   .loading {
@@ -288,7 +365,7 @@
   .buy-key h3 {
     font-size: 28px;
     margin-bottom: 12px;
-    background: linear-gradient(135deg, var(--green), var(--cyan));
+    background: linear-gradient(135deg, var(--gold), var(--green));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -296,6 +373,26 @@
   .buy-key p {
     color: var(--muted);
     margin-bottom: 20px;
+  }
+
+  /* Get Bot Now Section */
+  .get-bot {
+    margin-top: 40px;
+    padding: 40px 30px;
+    text-align: center;
+  }
+
+  .get-bot h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--purple), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .get-bot p {
+    color: var(--muted);
+    margin-bottom: 24px;
   }
 
   /* Responsive */
@@ -320,8 +417,8 @@
       Whether you run a business, community, or automation service, your bot is deployed 
       and ready in under a minute. Fast, secure, and built for scale.
     </p>
-    <button class="btn btn-primary glow-cyan" id="getStartedBtn">Get Started</button>
-    
+    <button class="btn btn-primary glow-purple" id="getStartedBtn">Get Started</button>
+
     <div class="features">
       <h2>Why Choose Dgift Shops</h2>
       <div class="feature-grid">
@@ -353,9 +450,16 @@
       <h2>Active Bots</h2>
       <p>Browse live bots deployed through Dgift Shops</p>
     </div>
-    
+
     <div class="bot-grid" id="botGrid">
       <div class="loading">Loading bots...</div>
+    </div>
+
+    <!-- Get Bot Now Section -->
+    <div class="get-bot glass glow-gold">
+      <h3>Get Your Bot Now</h3>
+      <p>Click below to access your bot panel instantly. No keys, no delays.</p>
+      <a href="/panel.html" class="btn btn-buy glow-gold">Get Bot Now</a>
     </div>
 
     <div class="buy-key glass glow-green">
@@ -401,18 +505,18 @@
     try {
       const res = await fetch('/api/get-bots');
       const bots = await res.json();
-      
+
       if (!bots || bots.length === 0) {
         botGrid.innerHTML = '<div class="empty">No active bots yet. Be the first to deploy one!</div>';
         return;
       }
 
       botGrid.innerHTML = bots.map(bot => `
-        <div class="bot-card glass ${bot.online ? 'glow-green' : 'glow-pink'}">
-          <img src="${bot.imgbb_url || 'https://via.placeholder.com/100/000/00f5ff?text=Bot'}" 
+        <div class="bot-card glass ${bot.online ? 'glow-green' : 'glow-purple'}">
+          <img src="${bot.imgbb_url || 'https://via.placeholder.com/100/000/00ff88?text=Bot'}" 
                alt="${bot.bot_name}" 
                class="bot-avatar"
-               onerror="this.src='https://via.placeholder.com/100/000/00f5ff?text=Bot'">
+               onerror="this.src='https://via.placeholder.com/100/000/00ff88?text=Bot'">
           <div class="bot-info">
             <div class="bot-name">${escapeHtml(bot.bot_name || 'Unnamed Bot')}</div>
             <div class="bot-owner">Owner: ${escapeHtml(bot.owner_name || 'Anonymous')}</div>
@@ -424,7 +528,7 @@
           </div>
         </div>
       `).join('');
-      
+
     } catch (err) {
       botGrid.innerHTML = '<div class="empty">Failed to load bots. Please refresh.</div>';
       console.error(err);
