@@ -124,31 +124,22 @@
     background: rgba(255,255,255,0.12);
   }
 
+  .btn-error {
+    animation: shake 0.3s ease;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
   .container {
     max-width: 1000px;
     margin: 0 auto;
     padding: 40px 20px;
   }
 
-  .header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  .header h1 {
-    font-size: 42px;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, var(--green), var(--gold), var(--purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .header p {
-    color: var(--muted);
-    font-size: 16px;
-  }
-
-  /* Login Section */
   .login-card {
     padding: 50px 40px;
     text-align: center;
@@ -209,7 +200,6 @@
     display: none;
   }
 
-  /* Panel Section */
   .panel {
     display: none;
   }
@@ -536,7 +526,6 @@
   let currentInstance = null
   let currentSettings = {}
 
-  // Init
   window.addEventListener('DOMContentLoaded', () => {
     const savedKey = localStorage.getItem(STORAGE_KEY)
     const savedInstance = localStorage.getItem(STORAGE_INSTANCE)
@@ -547,28 +536,39 @@
       loadSettings()
     }
 
-    // Event listeners
-    document.getElementById('verifyBtn').addEventListener('click', handleVerify)
-    document.getElementById('keyInput').addEventListener('keypress', e => {
+    const verifyBtn = document.getElementById('verifyBtn')
+    const saveBtn = document.getElementById('saveBtn')
+    const keyInput = document.getElementById('keyInput')
+
+    verifyBtn.addEventListener('click', handleVerify)
+    keyInput.addEventListener('keypress', e => {
       if (e.key === 'Enter') handleVerify()
     })
-    document.getElementById('saveBtn').addEventListener('click', handleSave)
+    keyInput.addEventListener('input', () => resetButtonState(verifyBtn))
+    
+    saveBtn.addEventListener('click', handleSave)
     document.getElementById('goToBotBtn').addEventListener('click', goToBot)
     document.getElementById('toggleOptional').addEventListener('click', toggleOptional)
     
     document.querySelectorAll('.toggle-switch').forEach(toggle => {
       toggle.addEventListener('click', () => {
         toggle.classList.toggle('active')
+        resetButtonState(saveBtn)
       })
+    })
+
+    document.querySelectorAll('#panelSection input').forEach(input => {
+      input.addEventListener('input', () => resetButtonState(saveBtn))
     })
   })
 
   async function handleVerify() {
     const key = document.getElementById('keyInput').value.trim()
     hideError('loginError')
+    resetButtonState(document.getElementById('verifyBtn'))
     
     if (!key) {
-      showError('loginError', 'Please enter your activation key')
+      showError('loginError', 'Please enter your activation key', 'verifyBtn')
       return
     }
 
@@ -581,11 +581,11 @@
         body: JSON.stringify({ key })
       })
       
-      const data = await res.json()
+      const text = await res.text()
+      let data
+      try { data = JSON.parse(text) } catch { data = { error: text } }
       
-      if (!res.ok) {
-        throw new Error(data.error || 'Invalid key')
-      }
+      if (!res.ok) throw new Error(data.error || 'Invalid key')
       
       currentKey = key
       currentInstance = data.instance_id
@@ -594,7 +594,7 @@
       
       await loadSettings()
     } catch (err) {
-      showError('loginError', err.message)
+      showError('loginError', err.message, 'verifyBtn')
     } finally {
       setLoading('verifyBtn', false)
     }
@@ -612,7 +612,7 @@
       currentSettings = data
       showPanel(data)
     } catch (err) {
-      showError('loginError', err.message)
+      showError('loginError', err.message, 'verifyBtn')
       logout()
     } finally {
       setLoading('verifyBtn', false)
@@ -626,14 +626,12 @@
     document.getElementById('panelTitle').textContent = settings.botname || 'Bot Settings'
     document.getElementById('instanceInfo').textContent = `Instance: ${currentInstance}`
     
-    // Fill required fields
     document.getElementById('owner_number').value = settings.owner_number || ''
     document.getElementById('owner_name').value = settings.owner_name || ''
     document.getElementById('botname').value = settings.botname || ''
     document.getElementById('prefix').value = settings.prefix || '.'
     document.getElementById('startup_image').value = settings.startup_image || ''
     
-    // Fill toggles
     setToggle('public_mode', settings.public_mode)
     setToggle('antilink', settings.antilink)
     setToggle('antispam', settings.antispam)
@@ -641,7 +639,6 @@
     setToggle('autotyping', settings.autotyping)
     setToggle('autoviewstatus', settings.autoviewstatus)
     
-    // Fill locked fields
     document.getElementById('accode').value = settings.accode || ''
     document.getElementById('settings').value = settings.settings || ''
   }
@@ -649,6 +646,7 @@
   async function handleSave() {
     hideError('saveError')
     hideSuccess('saveSuccess')
+    resetButtonState(document.getElementById('saveBtn'))
     setLoading('saveBtn', true)
     
     try {
@@ -681,7 +679,7 @@
       showSuccess('saveSuccess')
       setTimeout(() => hideSuccess('saveSuccess'), 3000)
     } catch (err) {
-      showError('saveError', err.message)
+      showError('saveError', err.message, 'saveBtn')
     } finally {
       setLoading('saveBtn', false)
     }
@@ -697,10 +695,10 @@
       if (data.render_url) {
         window.open(data.render_url, '_blank')
       } else {
-        showError('saveError', 'Render URL not found')
+        showError('saveError', 'Render URL not found', 'saveBtn')
       }
     } catch (err) {
-      showError('saveError', err.message)
+      showError('saveError', err.message, 'saveBtn')
     }
   }
 
@@ -728,40 +726,69 @@
     return toggle ? toggle.classList.contains('active') : false
   }
 
-  function showError(id, msg) {
-    const el = http://document.getElementById(id)
-    http://el.textContent = msg
-    http://el.style.display = 'block'
+  function showError(id, msg, btnId = null) {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.textContent = msg
+    el.style.display = 'block'
+    
+    if (btnId) {
+      const btn = document.getElementById(btnId)
+      btn.classList.add('btn-error')
+      btn.style.background = 'var(--error)'
+      btn.style.color = '#fff'
+      btn.textContent = 'Error'
+    }
   }
 
   function hideError(id) {
-    http://document.getElementById(id).style.display = 'none'
+    const el = document.getElementById(id)
+    if (!el) return
+    el.style.display = 'none'
   }
 
   function showSuccess(id) {
-    http://document.getElementById(id).style.display = 'block'
+    const el = document.getElementById(id)
+    if (!el) return
+    el.style.display = 'block'
   }
 
   function hideSuccess(id) {
-    http://document.getElementById(id).style.display = 'none'
+    const el = document.getElementById(id)
+    if (!el) return
+    el.style.display = 'none'
   }
 
   function setLoading(id, loading) {
-    const btn = http://document.getElementById(id)
+    const btn = document.getElementById(id)
+    if (!btn) return
     if (loading) {
-      http://btn.disabled = true
-      http://btn.textContent = 'Processing...'
+      btn.disabled = true
+      btn.textContent = 'Processing...'
     } else {
-      http://btn.disabled = false
-      if (id === 'verifyBtn') http://btn.textContent = 'Verify & Continue'
-      if (id === 'saveBtn') http://btn.textContent = 'Save Changes'
+      btn.disabled = false
+      if (!btn.classList.contains('btn-error')) {
+        if (id === 'verifyBtn') btn.textContent = 'Verify & Continue'
+        if (id === 'saveBtn') btn.textContent = 'Save Changes'
+      }
+    }
+  }
+
+  function resetButtonState(btn) {
+    if (!btn) return
+    if (btn.classList.contains('btn-error')) {
+      btn.classList.remove('btn-error')
+      btn.style.background = ''
+      btn.style.color = ''
+      if (btn.id === 'verifyBtn') btn.textContent = 'Verify & Continue'
+      if (btn.id === 'saveBtn') btn.textContent = 'Save Changes'
     }
   }
 
   function logout() {
-    http://localStorage.removeItem(STORAGE_KEY)
-    http://localStorage.removeItem(STORAGE_INSTANCE)
-    http://location.reload()
+    localStorage.removeItem(STORAGE_KEY)
+    localStorage.removeItem(STORAGE_INSTANCE)
+    location.reload()
   }
 </script>
 
