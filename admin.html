@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LUPIN APPS - ADVANCED CONTROL TERMINAL</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Absolute Cosmic Dark Background with Star Simulation from Lupin Earn v1.0 */
+    body {
+      background-color: #03020d;
+      background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+      background-size: 550px 550px, 350px 350px, 250px 250px;
+      background-position: 0 0, 40px 60px, 130px 270px;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphic Container Layer matching Adeztech & Lupin Hybrid Framework */
+    .lupin-card {
+      background: rgba(10, 8, 28, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+    }
+
+    /* Glowing neon green border style for high success priorities */
+    .adez-glow-green {
+      border: 1px solid #22c55e;
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+    }
+
+    /* Glowing neon cyan border style for entry inputs and parameters */
+    .adez-glow-cyan {
+      border: 1px solid #06b6d4;
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+    }
+
+    /* Core inputs background and formatting architecture */
+    .terminal-input {
+      background-color: #02010a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #f1f5f9;
+    }
+    .terminal-input:focus {
+      border-color: #06b6d4;
+      box-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
+      outline: none;
+    }
+
+    /* Standardized text reflections */
+    .text-gold {
+      color: #facc15;
+    }
+
+    /* Custom scroll rules */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e1b4b;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="text-slate-200 font-sans min-h-screen flex flex-col justify-between pb-8">
+
+  <nav class="h-16 bg-black/60 backdrop-blur-md fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 border-b border-indigo-950/40">
+    <div class="flex items-center space-x-2">
+      <i data-lucide="terminal" class="text-cyan-400 w-5 h-5 animate-pulse"></i>
+      <span class="font-black tracking-tight text-sm text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase">Lupin Control Terminal</span>
+    </div>
+    <a href="index.html" class="text-xs font-bold bg-zinc-900 border border-zinc-800 text-zinc-400 px-3 py-1.5 rounded-xl flex items-center gap-1 hover:text-white transition">
+      <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+      <span>Storefront</span>
+    </a>
+  </nav>
+
+  <main class="relative z-10 pt-20 px-4 max-w-md mx-auto w-full flex flex-col gap-6">
+
+    <div class="lupin-card rounded-3xl p-5 flex flex-col gap-1 border-purple-500/20">
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-black text-gold tracking-tight">Financial Freedom Hub</h1>
+        <span class="text-[9px] bg-purple-500/20 text-purple-400 font-mono px-2 py-0.5 rounded border border-purple-500/30 uppercase">Root Matrix</span>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed mt-1">
+        Welcome back, <span class="text-purple-400 font-black tracking-wide uppercase">SHADOW</span>. Here is your centralized core node directory to register new bot engine licenses and inspect cluster deployments.
+      </p>
+    </div>
+
+    <div class="lupin-card rounded-3xl p-5 border-cyan-500/20 flex flex-col gap-4">
+      <div class="flex items-center gap-2 border-b border-slate-900 pb-2.5">
+        <i data-lucide="plus-circle" class="text-cyan-400 w-5 h-5"></i>
+        <h2 class="text-xs font-black uppercase tracking-widest text-slate-300">Deploy New Market Engine</h2>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Automation Engine Name</label>
+        <input type="text" id="add-bot-name" placeholder="e.g., Viral Plug Engine v2" class="w-full terminal-input rounded-xl px-3.5 py-3 text-xs tracking-wide">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Marketing Tagline Slogan</label>
+        <input type="text" id="add-bot-tagline" placeholder="e.g., Dominate the algorithmic automation loops." class="w-full terminal-input rounded-xl px-3.5 py-3 text-xs">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Base Market Rate Valuation (TZS Only)</label>
+        <input type="number" id="add-bot-price" placeholder="e.g., 5000" class="w-full terminal-input rounded-xl px-3.5 py-3 text-xs font-mono">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">ImgBB Image Host Endpoint URL</label>
+        <input type="url" id="add-bot-image" placeholder="https://i.ibb.co/xxxxxx/image.png" class="w-full terminal-input rounded-xl px-3.5 py-3 text-xs font-mono">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Initial Engine Operational State</label>
+        <select id="add-bot-status" class="w-full terminal-input rounded-xl px-3.5 py-3 text-xs font-bold tracking-wider">
+          <option value="ACTIVE" class="bg-slate-950 text-green-400">ACTIVE - LIVE NODE</option>
+          <option value="MAINTENANCE" class="bg-slate-950 text-amber-500">MAINTENANCE - LOCKED NODE</option>
+          <option value="DEPRECATED" class="bg-slate-950 text-red-500">DEPRECATED - OFFLINE NODE</option>
+        </select>
+      </div>
+
+      <button onclick="commitNewBotToCloud()" id="btn-submit-registry" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 hover:to-indigo-700 text-slate-950 font-black py-4 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition duration-300 transform active:scale-95 shadow-lg shadow-cyan-500/10 mt-2">
+        <span>Commit Engine To Core Registry</span>
+        <i data-lucide="server-crash" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-4 mt-2">
+      <div class="flex items-center justify-between border-b border-slate-900 pb-2">
+        <div class="flex items-center gap-2">
+          <i data-lucide="activity" class="text-purple-400 w-4 h-4"></i>
+          <h2 class="font-black text-xs tracking-widest uppercase text-slate-400">Active Live Cluster Engines</h2>
+        </div>
+        <span id="cluster-count" class="text-[10px] font-mono text-purple-400 font-bold uppercase">Querying...</span>
+      </div>
+
+      <div id="admin-engines-list" class="flex flex-col gap-3.5">
+        <div class="lupin-card rounded-2xl p-8 text-center text-slate-500 flex flex-col items-center gap-2 border-dashed border-zinc-800">
+          <i data-lucide="refresh-cw" class="animate-spin text-purple-500"></i>
+          <span class="text-[10px] uppercase tracking-widest">Querying Supabase Ledger Records...</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="text-center py-4 relative z-10 mt-4">
+    <p class="text-[9px] uppercase tracking-widest text-zinc-800 font-black">Lupin Security Core Processing Systems &copy; 2026</p>
+  </footer>
+
+  <script>
+    // Asynchronously commit and push custom inputs straight down to Vercel API /api/add-bot
+    async function commitNewBotToCloud() {
+      const name = document.getElementById('add-bot-name').value.trim();
+      const tagline = document.getElementById('add-bot-tagline').value.trim();
+      const price = document.getElementById('add-bot-price').value.trim();
+      const imageUrl = document.getElementById('add-bot-image').value.trim();
+      const status = document.getElementById('add-bot-status').value;
+      const btn = document.getElementById('btn-submit-registry');
+
+      // Intercept execution and perform strict field parameters validation checks
+      if (!name || !tagline || !price || !imageUrl) {
+        // Soft border error accent feedback mechanism avoiding classic disruptive alert popups
+        if (!name) document.getElementById('add-bot-name').style.borderColor = '#ef4444';
+        if (!tagline) document.getElementById('add-bot-tagline').style.borderColor = '#ef4444';
+        if (!price) document.getElementById('add-bot-price').style.borderColor = '#ef4444';
+        if (!imageUrl) document.getElementById('add-bot-image').style.borderColor = '#ef4444';
+        return;
+      }
+
+      // Restructure field visualizations to highlight ongoing system tasks
+      btn.disabled = true;
+      btn.innerText = "SYNCHRONIZING REPOSITORY INGESTION...";
+
+      try {
+        const networkPayloadResponse = await fetch('/api/add-bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            bot_name: name,
+            tagline: tagline,
+            price: parseInt(price),
+            image_url: imageUrl,
+            status: status
+          })
+        });
+
+        const executionFeedbackResult = await networkPayloadResponse.json();
+
+        if (executionFeedbackResult.success) {
+          // Reset operational visualization inputs cleanly upon verified registration success
+          document.getElementById('add-bot-name').value = '';
+          document.getElementById('add-bot-tagline').value = '';
+          document.getElementById('add-bot-price').value = '';
+          document.getElementById('add-bot-image').value = '';
+          
+          // Re-trigger global refresh fetch loops immediately to pull updated ledger matrices
+          fetchClusterLedgerRegistry();
+        }
+      } catch (err) {
+        console.error('[CRITICAL CORE ADMIN APP REJECTION]:', err);
+      } finally {
+        // Re-enable interactive trigger properties
+        btn.disabled = false;
+        btn.innerHTML = `<span>Commit Engine To Core Registry</span><i data-lucide="server-crash" class="w-4 h-4"></i>`;
+        lucide.createIcons();
+      }
+    }
+
+    // Dynamic asynchronous query pull retrieving active market entries from /api/get-bots
+    async function fetchClusterLedgerRegistry() {
+      const container = document.getElementById('admin-engines-list');
+      const counter = document.getElementById('cluster-count');
+
+      try {
+        const response = await fetch('/api/get-bots');
+        const data = await response.json();
+
+        if (!data.success || !data.bots.length) {
+          container.innerHTML = `
+            <div class="lupin-card rounded-2xl p-6 text-center text-zinc-500 text-xs uppercase tracking-wider">
+              No deployed engine clusters matching database indexes.
+            </div>`;
+          counter.innerText = "0 CHANNELS";
+          lucide.createIcons();
+          return;
+        }
+
+        counter.innerText = `${data.bots.length} REGINALDS`;
+        container.innerHTML = ''; // Wipe intermediate tracking placeholders
+
+        // Build individual compact inspection rows mirroring dynamic Adeztech configurations
+        data.bots.forEach(bot => {
+          const statusClass = bot.status === 'ACTIVE' ? 'text-green-400 border-green-500/20 bg-green-500/5' : 'text-amber-400 border-amber-500/20 bg-amber-500/5';
+          
+          const botRowHtml = `
+            <div class="lupin-card rounded-2xl p-4 flex items-center justify-between border-zinc-800 hover:border-cyan-500/30 transition duration-300">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl overflow-hidden bg-black border border-zinc-900 shrink-0">
+                  <img src="${bot.image_url}" class="w-full h-full object-cover opacity-70">
+                </div>
+                <div class="flex flex-col">
+                  <p class="font-extrabold text-xs text-slate-200 tracking-tight">${bot.bot_name}</p>
+                  <p class="text-[10px] text-zinc-500 font-mono mt-0.5">${bot.price.toLocaleString()} TZS</p>
+                </div>
+              </div>
+              
+              <span class="text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-md border ${statusClass}">
+                ${bot.status}
+              </span>
+            </div>`;
+          container.insertAdjacentHTML('beforeend', botRowHtml);
+        });
+
+        lucide.createIcons();
+
+      } catch (error) {
+        console.error('[CLUSTER REPORT EXTRACTION CRASH]:', error);
+        container.innerHTML = `<div class="p-4 text-center text-xs text-red-400 uppercase">Registry Pull Pipeline Error</div>`;
+      }
+    }
+
+    // Bootstrap fundamental application triggers immediately on startup
+    fetchClusterLedgerRegistry();
+    lucide.createIcons();
+  </script>
+</body>
+</html>
