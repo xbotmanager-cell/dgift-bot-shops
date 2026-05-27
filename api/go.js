@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       return res.status(400).send('Key missing')
     }
 
-    // 1. Pata key na angalia kama ni valid
+    // 1. Angalia kama key ipo na imetumika
     const { data: keyData, error: keyError } = await supabase
       .from('bot_keys')
       .select('key, status, used_by')
@@ -21,10 +21,10 @@ export default async function handler(req, res) {
       return res.status(403).send('Invalid or unused key')
     }
 
-    // 2. Pata instance iliyo linked na key hii
+    // 2. Angalia kama instance ipo
     const { data: instance, error: instError } = await supabase
       .from('b_instances')
-      .select('render_url')
+      .select('id')
       .eq('id', keyData.used_by)
       .single()
 
@@ -32,10 +32,11 @@ export default async function handler(req, res) {
       return res.status(404).send('Instance not found')
     }
 
-    // 3. Redirect siri kwa render_url
-    res.redirect(302, instance.render_url)
-    
+    // 3. Redirect kwenye panel.html na key kwenye URL
+    res.redirect(302, `/panel.html?key=${encodeURIComponent(k)}`)
+
   } catch (err) {
+    console.error('go.js error:', err)
     res.status(500).send('Server error')
   }
 }
