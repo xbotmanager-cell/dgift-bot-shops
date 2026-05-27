@@ -3,18 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dgift Shops - Bot Panel</title>
+<title>Bot Panel - Dgift Shops</title>
 <style>
   :root {
-    --black: #000;
-    --glass: rgba(20,20,30,0.4);
+    --black: #0a0a0a;
+    --dark-black: #050505;
+    --glass: rgba(18, 22, 28, 0.45);
+    --glass-dim: rgba(18, 22, 28, 0.25);
     --green: #00ff88;
-    --purple: #8b00ff;
-    --cyan: #00f5ff;
-    --pink: #ff00c8;
-    --red: #ff4444;
-    --text: #e6e6e6;
-    --muted: #9aa0a6;
+    --purple: #8b5cf6;
+    --gold: #facc15;
+    --light-green: #4ade80;
+    --text: #f5f5f5;
+    --muted: #a3a3a3;
+    --error: #ff4d4d;
   }
 
     * {
@@ -28,6 +30,7 @@
     background: var(--black);
     color: var(--text);
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   body::before {
@@ -37,40 +40,53 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at 20% 20%, rgba(139,0,255,0.3), transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0,245,255,0.2), transparent 40%);
-    filter: blur(80px);
+    background: radial-gradient(circle at 20% 20%, rgba(139,92,246,0.25), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0,255,136,0.2), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(250,204,21,0.18), transparent 50%);
+    filter: blur(100px);
     z-index: -1;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(5%, 5%) scale(1.05); }
   }
 
   .glass {
     background: var(--glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 28px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    transition: all 0.4s ease;
   }
 
-  .glow-green { box-shadow: 0 0 20px rgba(0,255,136,0.4); }
-  .glow-cyan { box-shadow: 0 0 20px rgba(0,245,255,0.4); }
-  .glow-red { box-shadow: 0 0 20px rgba(255,68,68,0.4); }
+  .glass-dim {
+    background: var(--glass-dim);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 20px;
+    opacity: 0.6;
+  }
+
+  .glow-green { box-shadow: 0 0 30px rgba(0,255,136,0.35); }
+  .glow-purple { box-shadow: 0 0 30px rgba(139,92,246,0.35); }
+  .glow-gold { box-shadow: 0 0 30px rgba(250,204,21,0.35); }
 
   .btn {
-    padding: 14px 28px;
+    padding: 14px 32px;
     border-radius: 50px;
     border: none;
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background: linear-gradient(135deg, var(--cyan), var(--pink));
-    color: #000;
-  }
-
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0,245,255,0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
   }
 
   .btn:disabled {
@@ -78,13 +94,38 @@
     cursor: not-allowed;
   }
 
+  .btn-primary {
+    background: linear-gradient(135deg, var(--purple), var(--green));
+    color: var(--black);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(139,92,246,0.5);
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--green));
+    color: var(--black);
+  }
+
+  .btn-gold:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(250,204,21,0.5);
+  }
+
   .btn-secondary {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.08);
     color: var(--text);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: rgba(255,255,255,0.12);
   }
 
   .container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 40px 20px;
   }
@@ -95,70 +136,164 @@
   }
 
   .header h1 {
-    font-size: 36px;
-    background: linear-gradient(135deg, var(--cyan), var(--pink));
+    font-size: 42px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--green), var(--gold), var(--purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 10px;
   }
 
   .header p {
     color: var(--muted);
-  }
-
-  .access-denied {
-    text-align: center;
-    padding: 60px 30px;
-  }
-
-  .access-denied h2 {
-    color: var(--red);
-    font-size: 32px;
-    margin-bottom: 16px;
-  }
-
-  .access-denied p {
-    color: var(--muted);
     font-size: 16px;
   }
 
+  /* Login Section */
+  .login-card {
+    padding: 50px 40px;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .login-card h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--purple), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .login-card p {
+    color: var(--muted);
+    margin-bottom: 30px;
+  }
+
+  .key-input {
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.4);
+    color: var(--text);
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .key-input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 20px rgba(0,255,136,0.3);
+  }
+
+  .error-box {
+    background: rgba(255,77,77,0.1);
+    border: 1px solid rgba(255,77,77,0.3);
+    color: var(--error);
+    padding: 14px 20px;
+    border-radius: 16px;
+    margin-top: 16px;
+    font-size: 14px;
+    display: none;
+  }
+
+  .success-box {
+    background: rgba(0,255,136,0.1);
+    border: 1px solid rgba(0,255,136,0.3);
+    color: var(--green);
+    padding: 14px 20px;
+    border-radius: 16px;
+    margin-top: 16px;
+    font-size: 14px;
+    display: none;
+  }
+
+  /* Panel Section */
   .panel {
     display: none;
   }
 
   .panel.active {
     display: block;
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .panel-header h2 {
+    font-size: 32px;
+    background: linear-gradient(135deg, var(--gold), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .panel-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   .section {
-    padding: 30px;
-    margin-bottom: 24px;
+    margin-bottom: 30px;
   }
 
-  .section h3 {
-    font-size: 22px;
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 20px;
-    color: var(--cyan);
+  }
+
+  .section-header h3 {
+    font-size: 22px;
+    color: var(--light-green);
+  }
+
+  .section-badge {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(139,92,246,0.2);
+    color: var(--purple);
+    border: 1px solid rgba(139,92,246,0.3);
+  }
+
+  .form-grid {
+    display: grid;
+    gap: 20px;
   }
 
   .form-group {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--muted);
     font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
   }
 
   .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 14px 18px;
+  .form-group select {
+    padding: 14px 20px;
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(20,20,30,0.6);
+    background: rgba(0,0,0,0.4);
     color: var(--text);
     font-size: 15px;
     outline: none;
@@ -166,121 +301,86 @@
   }
 
   .form-group input:focus,
-  .form-group textarea:focus {
-    border-color: var(--cyan);
-    box-shadow: 0 0 15px rgba(0,245,255,0.2);
+  .form-group select:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 15px rgba(0,255,136,0.2);
   }
 
-  .form-group .error {
-    color: var(--red);
-    font-size: 13px;
-    margin-top: 6px;
-    display: none;
-  }
-
-  .form-group .error.show {
-    display: block;
-  }
-
-  .form-group .hint {
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 6px;
-  }
-
-  .upload-box {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .upload-box input {
-    flex: 1;
-  }
-
-  .upload-btn {
-    padding: 14px 20px;
-    white-space: nowrap;
+  .form-group input:disabled,
+  .form-group select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .toggle-group {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 0;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06);
   }
 
-  .toggle {
-    position: relative;
-    width: 60px;
-    height: 32px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .toggle.active {
-    background: linear-gradient(135deg, var(--green), var(--cyan));
-  }
-
-  .toggle-slider {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    width: 24px;
-    height: 24px;
-    background: white;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-  }
-
-  .toggle.active .toggle-slider {
-    left: 32px;
-  }
-
-  .actions {
+  .toggle-info {
     display: flex;
-    gap: 12px;
-    margin-top: 30px;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .actions button {
-    flex: 1;
+  .toggle-info span {
+    font-size: 15px;
+    font-weight: 500;
   }
 
-  .status-text {
-    text-align: center;
-    padding: 12px;
-    border-radius: 12px;
-    margin-top: 16px;
-    font-size: 14px;
-    display: none;
-  }
-
-  .status-text.show {
-    display: block;
-  }
-
-  .status-text.success {
-    background: rgba(0,255,136,0.15);
-    color: var(--green);
-  }
-
-  .status-text.error {
-    background: rgba(255,68,68,0.15);
-    color: var(--red);
-  }
-
-  .loading {
-    text-align: center;
-    padding: 40px;
+  .toggle-info small {
+    font-size: 13px;
     color: var(--muted);
   }
 
-  @media(max-width: 600px) {
-    .actions {
-      flex-direction: column;
+  .toggle-switch {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .toggle-switch.active {
+    background: var(--green);
+  }
+
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: 0.3s;
+  }
+
+  .toggle-switch.active::after {
+    left: 27px;
+  }
+
+  .optional-toggle {
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .lock-icon {
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  @media(min-width: 768px) {
+    .form-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>
@@ -288,291 +388,380 @@
 <body>
 
 <div class="container">
-  <div id="loadingScreen" class="loading">Verifying access...</div>
-
-  <div id="deniedScreen" class="access-denied" style="display:none;">
-    <h2>Access Denied</h2>
-    <p>Invalid or missing activation key. Please use the link provided after purchase.</p>
+  <!-- Login Section -->
+  <div id="loginSection">
+    <div class="login-card glass glow-purple">
+      <h2>Access Your Bot Panel</h2>
+      <p>Enter your activation key to manage your bot settings</p>
+      <input type="text" id="keyInput" class="key-input" placeholder="Enter your activation key" autocomplete="off">
+      <button class="btn btn-primary glow-purple" id="verifyBtn" style="width: 100%;">Verify & Continue</button>
+      <div class="error-box" id="loginError"></div>
+    </div>
   </div>
 
-  <div id="panelScreen" class="panel">
-    <div class="header">
-      <h1>Bot Control Panel</h1>
-      <p>Configure your bot settings and go live</p>
+  <!-- Panel Section -->
+  <div class="panel" id="panelSection">
+    <div class="panel-header">
+      <div>
+        <h2 id="panelTitle">Bot Settings</h2>
+        <p style="color: var(--muted); font-size: 14px;" id="instanceInfo"></p>
+      </div>
+      <div class="panel-actions">
+        <button class="btn btn-secondary" id="goToBotBtn">Nenda Kwenye Bot</button>
+        <button class="btn btn-gold glow-gold" id="saveBtn">Save Changes</button>
+      </div>
     </div>
 
-    <div class="section glass">
-      <h3>Bot Status</h3>
-      <div class="toggle-group">
-        <div>
-          <div style="font-weight: 600;">Bot Status</div>
-          <div style="color: var(--muted); font-size: 14px;">Toggle to enable or disable your bot</div>
+    <div class="success-box" id="saveSuccess">Settings saved successfully!</div>
+    <div class="error-box" id="saveError"></div>
+
+    <!-- Required Settings -->
+    <div class="section">
+      <div class="section-header">
+        <h3>Required Settings</h3>
+        <span class="section-badge">Must Fill</span>
+      </div>
+      <div class="form-grid glass" style="padding: 30px;">
+        <div class="form-group">
+          <label>Owner Number</label>
+          <input type="text" id="owner_number" placeholder="2557XXXXXXXX">
         </div>
-        <div class="toggle" id="statusToggle">
-          <div class="toggle-slider"></div>
+        <div class="form-group">
+          <label>Owner Name</label>
+          <input type="text" id="owner_name" placeholder="Your Name">
+        </div>
+        <div class="form-group">
+          <label>Bot Name</label>
+          <input type="text" id="botname" placeholder="dgift-bot">
+        </div>
+        <div class="form-group">
+          <label>Prefix</label>
+          <input type="text" id="prefix" placeholder=".">
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>Bot Image URL / Startup Image</label>
+          <input type="text" id="startup_image" placeholder="https://i.ibb.co/...">
         </div>
       </div>
-      <div id="statusMsg" class="status-text"></div>
     </div>
 
-    <div class="section glass">
-      <h3>Basic Information</h3>
-      
-      <div class="form-group">
-        <label>Bot Name</label>
-        <input type="text" id="botName" placeholder="Enter bot name">
-        <div class="error" id="botNameError">Bot name is required</div>
-      </div>
+    <!-- Optional Booleans -->
+    <div class="optional-toggle">
+      <button class="btn btn-secondary" id="toggleOptional">
+        <span class="lock-icon">⚙️</span> Show Advanced Options
+      </button>
+    </div>
 
-      <div class="form-group">
-        <label>Owner Name</label>
-        <input type="text" id="ownerName" placeholder="Enter owner name">
-      </div>
-
-      <div class="form-group">
-        <label>Owner Number</label>
-        <input type="text" id="ownerNumber" placeholder="+255XXXXXXXXX">
-      </div>
-
-      <div class="form-group">
-        <label>Bot Profile Picture</label>
-        <div class="upload-box">
-          <input type="text" id="imgUrl" placeholder="Image URL or upload below">
-          <input type="file" id="fileInput" accept="image/*" style="display:none;">
-          <button class="btn btn-secondary upload-btn" id="uploadBtn">Upload</button>
+    <div id="optionalSection" style="display: none;">
+      <div class="section">
+        <div class="section-header">
+          <h3>Feature Toggles</h3>
+          <span class="section-badge">Optional</span>
         </div>
-        <div class="hint">Leave empty to use default image from settings</div>
-        <div class="error" id="imgError">Failed to upload image</div>
+        <div class="form-grid">
+          <div class="toggle-group glass">
+            <div class="toggle-info">
+              <span>Public Mode</span>
+              <small>Allow anyone to use bot commands</small>
+            </div>
+            <div class="toggle-switch" data-field="public_mode"></div>
+          </div>
+          <div class="toggle-group glass">
+            <div class="toggle-info">
+              <span>Anti-Link</span>
+              <small>Auto delete links in groups</small>
+            </div>
+            <div class="toggle-switch" data-field="antilink"></div>
+          </div>
+          <div class="toggle-group glass">
+            <div class="toggle-info">
+              <span>Anti-Spam</span>
+              <small>Block spam messages</small>
+            </div>
+            <div class="toggle-switch" data-field="antispam"></div>
+          </div>
+          <div class="toggle-group glass">
+            <div class="toggle-info">
+              <span>Auto Read</span>
+              <small>Mark messages as read automatically</small>
+            </div>
+            <div class="toggle-switch" data-field="autoread"></div>
+          </div>
+          <div class="toggle-group glass">
+            <div class="toggle-info">
+              <span>Auto Typing</span>
+              <small>Show typing indicator</small>
+            </div>
+            <div class="toggle-switch" data-field="autotyping"></div>
+          </div>
+          <div class="toggle-group glass">
+            <div class="toggle-info">
+              <span>Auto View Status</span>
+              <small>View statuses automatically</small>
+            </div>
+            <div class="toggle-switch" data-field="autoviewstatus"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Non-Important Fields -->
+      <div class="section">
+        <div class="section-header">
+          <h3>Other Settings</h3>
+          <span class="section-badge" style="background: rgba(163,163,163,0.2); color: var(--muted); border-color: rgba(163,163,163,0.3);">Non-Important</span>
+        </div>
+        <div class="form-grid glass-dim" style="padding: 30px;">
+          <div class="form-group">
+            <label>Accode</label>
+            <input type="text" id="accode" disabled>
+          </div>
+          <div class="form-group">
+            <label>Custom Settings JSON</label>
+            <input type="text" id="settings" disabled placeholder="Advanced JSON settings">
+          </div>
+          <p style="grid-column: 1 / -1; text-align: center; color: var(--muted); font-size: 13px;">
+            🔒 These fields are locked. Contact support to enable them.
+          </p>
+        </div>
       </div>
     </div>
-
-    <div class="section glass">
-      <h3>Bot Behavior</h3>
-      
-      <div class="form-group">
-        <label>Welcome Message</label>
-        <textarea id="welcomeMsg" rows="3" placeholder="Message sent when user starts chat"></textarea>
-        <div class="hint">Leave empty to use default from settings</div>
-      </div>
-
-      <div class="form-group">
-        <label>Auto Reply Message</label>
-        <textarea id="autoReply" rows="3" placeholder="Message sent for unknown commands"></textarea>
-        <div class="hint">Leave empty to use default from settings</div>
-      </div>
-    </div>
-
-    <div class="actions">
-      <button class="btn" id="saveBtn">Save Changes</button>
-      <button class="btn btn-secondary" id="resetBtn">Reset</button>
-    </div>
-
-    <div id="saveMsg" class="status-text"></div>
   </div>
 </div>
 
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const key = urlParams.get('key');
+  const STORAGE_KEY = 'dgift_panel_key'
+  const STORAGE_INSTANCE = 'dgift_panel_instance'
   
-  const loadingScreen = document.getElementById('loadingScreen');
-  const deniedScreen = document.getElementById('deniedScreen');
-  const panelScreen = document.getElementById('panelScreen');
-  
-  const statusToggle = document.getElementById('statusToggle');
-  const statusMsg = document.getElementById('statusMsg');
-  const saveBtn = document.getElementById('saveBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const saveMsg = document.getElementById('saveMsg');
-  const uploadBtn = document.getElementById('uploadBtn');
-  const fileInput = document.getElementById('fileInput');
+  let currentKey = null
+  let currentInstance = null
+  let currentSettings = {}
 
-  let currentData = {};
-  let botId = null;
+  // Init
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedKey = localStorage.getItem(STORAGE_KEY)
+    const savedInstance = localStorage.getItem(STORAGE_INSTANCE)
+    
+    if (savedKey && savedInstance) {
+      currentKey = savedKey
+      currentInstance = savedInstance
+      loadSettings()
+    }
 
-  window.addEventListener('DOMContentLoaded', init);
+    // Event listeners
+    document.getElementById('verifyBtn').addEventListener('click', handleVerify)
+    document.getElementById('keyInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') handleVerify()
+    })
+    document.getElementById('saveBtn').addEventListener('click', handleSave)
+    document.getElementById('goToBotBtn').addEventListener('click', goToBot)
+    document.getElementById('toggleOptional').addEventListener('click', toggleOptional)
+    
+    document.querySelectorAll('.toggle-switch').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        toggle.classList.toggle('active')
+      })
+    })
+  })
 
-  async function init() {
+  async function handleVerify() {
+    const key = document.getElementById('keyInput').value.trim()
+    hideError('loginError')
+    
     if (!key) {
-      showDenied();
-      return;
+      showError('loginError', 'Please enter your activation key')
+      return
     }
 
+    setLoading('verifyBtn', true)
+    
     try {
-      const verifyRes = await fetch(`/api/verify-key?key=${encodeURIComponent(key)}`);
-      const verifyData = await verifyRes.json();
-
-      if (!verifyData.valid) {
-        showDenied();
-        return;
+      const res = await fetch('/api/activate-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key })
+      })
+      
+      const data = await res.json()
+      
+      if (!res.ok) {
+        throw new Error(data.error || 'Invalid key')
       }
-
-      botId = verifyData.bot_id;
-      await loadSettings();
-      showPanel();
+      
+      currentKey = key
+      currentInstance = data.instance_id
+      localStorage.setItem(STORAGE_KEY, key)
+      localStorage.setItem(STORAGE_INSTANCE, data.instance_id)
+      
+      await loadSettings()
     } catch (err) {
-      showDenied();
-      console.error(err);
+      showError('loginError', err.message)
+    } finally {
+      setLoading('verifyBtn', false)
     }
-  }
-
-  function showDenied() {
-    loadingScreen.style.display = 'none';
-    deniedScreen.style.display = 'block';
-  }
-
-  function showPanel() {
-    loadingScreen.style.display = 'none';
-    panelScreen.classList.add('active');
   }
 
   async function loadSettings() {
+    setLoading('verifyBtn', true)
+    
     try {
-      const res = await fetch(`/api/get-settings?bot_id=${botId}`);
-      const data = await res.json();
+      const res = await fetch(`/api/get-settings?key=${encodeURIComponent(currentKey)}&instance_id=${encodeURIComponent(currentInstance)}`)
+      const data = await res.json()
       
-      currentData = data;
+      if (!res.ok) throw new Error(data.error || 'Failed to load settings')
       
-      document.getElementById('botName').value = data.bot_name || '';
-      document.getElementById('ownerName').value = data.owner_name || '';
-      document.getElementById('ownerNumber').value = data.owner_number || '';
-      document.getElementById('imgUrl').value = data.imgbb_url || '';
-      document.getElementById('welcomeMsg').value = data.welcome_msg || '';
-      document.getElementById('autoReply').value = data.auto_reply || '';
-      
-      if (data.status === 'online') {
-        statusToggle.classList.add('active');
-      }
+      currentSettings = data
+      showPanel(data)
     } catch (err) {
-      showMessage(saveMsg, 'Failed to load settings', 'error');
-      console.error(err);
+      showError('loginError', err.message)
+      logout()
+    } finally {
+      setLoading('verifyBtn', false)
     }
   }
 
-  statusToggle.addEventListener('click', async () => {
-    const newStatus = statusToggle.classList.contains('active') ? 'offline' : 'online';
+  function showPanel(settings) {
+    document.getElementById('loginSection').style.display = 'none'
+    document.getElementById('panelSection').classList.add('active')
+    
+    document.getElementById('panelTitle').textContent = settings.botname || 'Bot Settings'
+    document.getElementById('instanceInfo').textContent = `Instance: ${currentInstance}`
+    
+    // Fill required fields
+    document.getElementById('owner_number').value = settings.owner_number || ''
+    document.getElementById('owner_name').value = settings.owner_name || ''
+    document.getElementById('botname').value = settings.botname || ''
+    document.getElementById('prefix').value = settings.prefix || '.'
+    document.getElementById('startup_image').value = settings.startup_image || ''
+    
+    // Fill toggles
+    setToggle('public_mode', settings.public_mode)
+    setToggle('antilink', settings.antilink)
+    setToggle('antispam', settings.antispam)
+    setToggle('autoread', settings.autoread)
+    setToggle('autotyping', settings.autotyping)
+    setToggle('autoviewstatus', settings.autoviewstatus)
+    
+    // Fill locked fields
+    document.getElementById('accode').value = settings.accode || ''
+    document.getElementById('settings').value = settings.settings || ''
+  }
+
+  async function handleSave() {
+    hideError('saveError')
+    hideSuccess('saveSuccess')
+    setLoading('saveBtn', true)
     
     try {
-      const res = await fetch('/api/update-status', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bot_id: botId, status: newStatus })
-      });
-
-      if (res.ok) {
-        statusToggle.classList.toggle('active');
-        showMessage(statusMsg, `Bot is now ${newStatus}`, 'success');
-      } else {
-        showMessage(statusMsg, 'Failed to update status', 'error');
+      const payload = {
+        key: currentKey,
+        instance_id: currentInstance,
+        owner_number: document.getElementById('owner_number').value,
+        owner_name: document.getElementById('owner_name').value,
+        botname: document.getElementById('botname').value,
+        prefix: document.getElementById('prefix').value,
+        startup_image: document.getElementById('startup_image').value,
+        public_mode: getToggle('public_mode'),
+        antilink: getToggle('antilink'),
+        antispam: getToggle('antispam'),
+        autoread: getToggle('autoread'),
+        autotyping: getToggle('autotyping'),
+        autoviewstatus: getToggle('autoviewstatus')
       }
-    } catch (err) {
-      showMessage(statusMsg, 'Network error', 'error');
-    }
-  });
-
-  uploadBtn.addEventListener('click', () => fileInput.click());
-
-  fileInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    uploadBtn.disabled = true;
-    uploadBtn.textContent = 'Uploading...';
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const res = await fetch('/api/upload-image', {
-        method: 'POST',
-        body: formData
-      });
       
-      const data = await res.json();
-      
-      if (data.url) {
-        document.getElementById('imgUrl').value = data.url;
-        hideError('imgError');
-      } else {
-        showError('imgError');
-      }
-    } catch (err) {
-      showError('imgError');
-    } finally {
-      uploadBtn.disabled = false;
-      uploadBtn.textContent = 'Upload';
-    }
-  });
-
-  saveBtn.addEventListener('click', async () => {
-    const botName = document.getElementById('botName').value.trim();
-    
-    if (!botName) {
-      showError('botNameError');
-      return;
-    }
-    hideError('botNameError');
-
-    saveBtn.disabled = true;
-    saveBtn.textContent = 'Saving...';
-
-    const payload = {
-      bot_id: botId,
-      key: key,
-      bot_name: botName,
-      owner_name: document.getElementById('ownerName').value.trim(),
-      owner_number: document.getElementById('ownerNumber').value.trim(),
-      imgbb_url: document.getElementById('imgUrl').value.trim(),
-      welcome_msg: document.getElementById('welcomeMsg').value.trim(),
-      auto_reply: document.getElementById('autoReply').value.trim()
-    };
-
-    try {
-      const res = await fetch('/api/save-bot', {
+      const res = await fetch('/api/save-settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-      });
+      })
+      
+      const data = await res.json()
+      
+      if (!res.ok) throw new Error(data.error || 'Failed to save')
+      
+      showSuccess('saveSuccess')
+      setTimeout(() => hideSuccess('saveSuccess'), 3000)
+    } catch (err) {
+      showError('saveError', err.message)
+    } finally {
+      setLoading('saveBtn', false)
+    }
+  }
 
-      const data = await res.json();
-
-      if (data.success) {
-        showMessage(saveMsg, 'Settings saved successfully', 'success');
-        currentData = { ...currentData, ...payload };
+  async function goToBot() {
+    try {
+      const res = await fetch(`/api/get-instance?key=${encodeURIComponent(currentKey)}&instance_id=${encodeURIComponent(currentInstance)}`)
+      const data = await res.json()
+      
+      if (!res.ok) throw new Error(data.error || 'Failed to get instance')
+      
+      if (data.render_url) {
+        window.open(data.render_url, '_blank')
       } else {
-        showMessage(saveMsg, data.error || 'Failed to save settings', 'error');
+        showError('saveError', 'Render URL not found')
       }
     } catch (err) {
-      showMessage(saveMsg, 'Network error', 'error');
-    } finally {
-      saveBtn.disabled = false;
-      saveBtn.textContent = 'Save Changes';
+      showError('saveError', err.message)
     }
-  });
+  }
 
-  resetBtn.addEventListener('click', () => {
-    loadSettings();
-    hideError('botNameError');
-    hideError('imgError');
-    hideMessage(saveMsg);
-  });
+  function toggleOptional() {
+    const section = document.getElementById('optionalSection')
+    const btn = document.getElementById('toggleOptional')
+    const isHidden = section.style.display === 'none'
+    
+    section.style.display = isHidden ? 'block' : 'none'
+    btn.innerHTML = isHidden 
+      ? '<span class="lock-icon">🔒</span> Hide Advanced Options' 
+      : '<span class="lock-icon">⚙️</span> Show Advanced Options'
+  }
 
-  function showError(id) {
-    document.getElementById(id).classList.add('show');
+  function setToggle(field, value) {
+    const toggle = document.querySelector(`[data-field="${field}"]`)
+    if (toggle) {
+      if (value) toggle.classList.add('active')
+      else toggle.classList.remove('active')
+    }
+  }
+
+  function getToggle(field) {
+    const toggle = document.querySelector(`[data-field="${field}"]`)
+    return toggle ? toggle.classList.contains('active') : false
+  }
+
+  function showError(id, msg) {
+    const el = http://document.getElementById(id)
+    http://el.textContent = msg
+    http://el.style.display = 'block'
   }
 
   function hideError(id) {
-    document.getElementById(id).classList.remove('show');
+    http://document.getElementById(id).style.display = 'none'
   }
 
-  function showMessage(el, text, type) {
-    el.textContent = text;
-    el.className = `status-text show ${type}`;
-    setTimeout(() => hideMessage(el), 4000);
+  function showSuccess(id) {
+    http://document.getElementById(id).style.display = 'block'
   }
 
-  function hideMessage(el) {
-    el.classList.remove('show');
+  function hideSuccess(id) {
+    http://document.getElementById(id).style.display = 'none'
+  }
+
+  function setLoading(id, loading) {
+    const btn = http://document.getElementById(id)
+    if (loading) {
+      http://btn.disabled = true
+      http://btn.textContent = 'Processing...'
+    } else {
+      http://btn.disabled = false
+      if (id === 'verifyBtn') http://btn.textContent = 'Verify & Continue'
+      if (id === 'saveBtn') http://btn.textContent = 'Save Changes'
+    }
+  }
+
+  function logout() {
+    http://localStorage.removeItem(STORAGE_KEY)
+    http://localStorage.removeItem(STORAGE_INSTANCE)
+    http://location.reload()
   }
 </script>
 
