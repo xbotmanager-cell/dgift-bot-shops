@@ -3,303 +3,444 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SECURE SUBSCRIPTION GATEWAY</title>
+  <title>ADEZTECH STYLE PREMIUM CHECKOUT GATEWAY</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    .glass-card {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(6, 182, 212, 0.2);
-    }
-    .neon-border-green {
-      border: 2px solid #22c55e;
-      box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
-    }
-    .neon-bg-purple {
-      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
-    }
+    /* Absolute Dark UI Styling Background Matching Adeztech Layout */
     body {
-      background-color: #030712;
+      background-color: #09090b;
       overflow-x: hidden;
+    }
+    
+    /* Custom Scrollbar configuration for deep scrolling mobile layout */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #09090b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 10px;
+    }
+
+    /* Premium Adeztech Lookalike Glassmorphic Card Containers */
+    .adez-card-green {
+      background-color: #0c0a09;
+      border: 1px solid #22c55e;
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+    }
+    .adez-card-purple {
+      background-color: #0c0a09;
+      border: 1px solid #a855f7;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+    }
+    
+    /* Standard interactive layout input fields background */
+    .adez-input {
+      background-color: #020202;
+      border: 1px solid #27272a;
+    }
+    .adez-input:focus {
+      border-color: #22c55e;
+      outline: none;
+    }
+
+    /* Smooth transition matrix rules */
+    .transition-matrix {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
   </style>
 </head>
-<body class="text-slate-200 font-sans min-h-screen flex flex-col justify-between pb-6">
+<body class="text-slate-100 font-sans min-h-screen flex flex-col justify-between pb-8">
 
-  <nav class="h-16 glass-card fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 border-b border-slate-800">
+  <nav class="h-16 bg-black/80 backdrop-blur-md fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 border-b border-zinc-800">
     <div class="flex items-center space-x-2">
-      <a href="index.html" class="text-cyan-400 hover:text-white transition"><i data-lucide="arrow-left"></i></a>
-      <span class="font-black tracking-wider uppercase text-sm text-cyan-400">Checkout Matrix</span>
+      <a href="index.html" class="text-zinc-400 hover:text-white transition-matrix"><i data-lucide="arrow-left" class="w-5 h-5"></i></a>
+      <span class="font-black tracking-tighter uppercase text-xs text-emerald-500">Adez System Core</span>
     </div>
-    <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl p-1">
-      <button onclick="switchCurrency('USD')" id="btn-USD" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-900 transition">USD</button>
-      <button onclick="switchCurrency('TZS')" id="btn-TZS" class="text-xs font-bold px-3 py-1.5 rounded-lg text-slate-400 transition">TZS</button>
-      <button onclick="switchCurrency('KES')" id="btn-KES" class="text-xs font-bold px-3 py-1.5 rounded-lg text-slate-400 transition">KES</button>
+    
+    <div class="flex items-center bg-zinc-950 border border-zinc-800 rounded-xl p-1">
+      <button onclick="changeGlobalCurrency('USD')" id="currency-USD" class="text-[10px] font-black px-3 py-1.5 rounded-lg bg-emerald-500 text-zinc-950 transition-matrix">USD</button>
+      <button onclick="changeGlobalCurrency('TZS')" id="currency-TZS" class="text-[10px] font-black px-3 py-1.5 rounded-lg text-zinc-400 transition-matrix">TZS</button>
+      <button onclick="changeGlobalCurrency('KES')" id="currency-KES" class="text-[10px] font-black px-3 py-1.5 rounded-lg text-zinc-400 transition-matrix">KES</button>
     </div>
   </nav>
 
   <main class="relative z-10 pt-20 px-4 max-w-md mx-auto w-full flex flex-col gap-6">
 
-    <div class="glass-card rounded-3xl p-6 neon-border-green relative overflow-hidden">
-      <div class="absolute top-0 right-6 bg-green-500 text-slate-950 font-black text-[9px] uppercase tracking-widest px-3 py-1 rounded-b-xl">
+    <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-1.5 flex justify-between items-center">
+      <button onclick="changeGlobalInterval('WEEK')" id="interval-WEEK" class="flex-1 text-[10px] font-black uppercase tracking-wider py-2.5 rounded-xl text-zinc-400 transition-matrix">Weekly Node</button>
+      <button onclick="changeGlobalInterval('MONTH')" id="interval-MONTH" class="flex-1 text-[10px] font-black uppercase tracking-wider py-2.5 rounded-xl bg-zinc-800 text-slate-100 border border-zinc-700 transition-matrix">Monthly Node</button>
+      <button onclick="changeGlobalInterval('YEAR')" id="interval-YEAR" class="flex-1 text-[10px] font-black uppercase tracking-wider py-2.5 rounded-xl text-zinc-400 transition-matrix">Yearly Node</button>
+    </div>
+
+    <div id="product-card" class="adez-card-green rounded-3xl p-6 relative overflow-hidden transition-matrix">
+      <div id="popular-badge" class="absolute top-0 right-8 bg-green-500 text-black font-black text-[9px] uppercase tracking-widest px-4 py-1 rounded-b-xl">
         Most Popular
       </div>
-      
-      <div class="flex flex-col gap-1">
-        <h2 id="invoice-bot-name" class="text-2xl font-black text-green-400 tracking-tight">Loading Engine...</h2>
-        <p class="text-xs text-slate-400 uppercase tracking-widest">Dominate the automation platform</p>
+
+      <div class="flex flex-col gap-1 mt-2">
+        <h2 id="display-bot-name" class="text-2xl font-extrabold text-green-500 tracking-tight">Viral Plug Engine</h2>
+        <p id="display-bot-tagline" class="text-sm text-zinc-400">Dominate the algorithm automation framework.</p>
       </div>
 
-      <div class="my-6">
-        <span id="price-output" class="text-4xl font-black tracking-tight text-slate-100 font-mono">$0.00</span>
+      <div class="my-6 flex flex-col">
+        <span id="display-price-output" class="text-4xl font-black tracking-tight text-white font-mono">KSh 5,000</span>
+        <span id="display-interval-subtext" class="text-[9px] uppercase tracking-widest text-zinc-500 font-bold mt-1">Calculated Per Monthly Interval</span>
       </div>
 
-      <div class="flex flex-col gap-3 border-t border-slate-800 pt-4 text-sm">
-        <div class="flex items-center gap-3">
-          <div class="w-5 h-5 bg-green-500/10 rounded-full border border-green-500/30 flex items-center justify-center"><i data-lucide="check" class="text-green-400 w-3 h-3"></i></div>
-          <span class="text-slate-300">1 Dedicated Render Cloud Instance Slot</span>
+      <div class="flex flex-col gap-3.5 border-t border-zinc-900 pt-5 text-sm">
+        <div class="flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full border border-green-500/30 bg-green-500/10 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="text-green-400 w-3 h-3"></i>
+          </div>
+          <p class="text-zinc-300 text-xs font-medium leading-tight">5,000 Premium Targeted Automated Instance Followers Node</p>
         </div>
-        <div class="flex items-center gap-3">
-          <div class="w-5 h-5 bg-green-500/10 rounded-full border border-green-500/30 flex items-center justify-center"><i data-lucide="check" class="text-green-400 w-3 h-3"></i></div>
-          <span class="text-slate-300">Full Cloud Session Sync Matrix Enabled</span>
+
+        <div class="flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full border border-green-500/30 bg-green-500/10 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="text-green-400 w-3 h-3"></i>
+          </div>
+          <p class="text-zinc-300 text-xs font-medium leading-tight">2,000 Realtime Views Matrix Allocation Protocol</p>
         </div>
-        <div class="flex items-center gap-3">
-          <div class="w-5 h-5 bg-green-500/10 rounded-full border border-green-500/30 flex items-center justify-center"><i data-lucide="check" class="text-green-400 w-3 h-3"></i></div>
-          <span class="text-slate-300">Flexible Advanced Feature Toggles Control</span>
+
+        <div class="flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full border border-green-500/30 bg-green-500/10 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="text-green-400 w-3 h-3"></i>
+          </div>
+          <p class="text-zinc-300 text-xs font-medium leading-tight">1 Custom Independent Secure Cloud Deployment Instance Bot</p>
         </div>
-        <div class="flex items-center gap-3">
-          <div class="w-5 h-5 bg-green-500/10 rounded-full border border-green-500/30 flex items-center justify-center"><i data-lucide="check" class="text-green-400 w-3 h-3"></i></div>
-          <span class="text-slate-300">Priority Technical Matrix Infrastructure Support</span>
+
+        <div class="flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full border border-green-500/30 bg-green-500/10 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="text-green-400 w-3 h-3"></i>
+          </div>
+          <p class="text-zinc-300 text-xs font-medium leading-tight">24/7 Priority Infrastructure Support Route Matrix Access</p>
+        </div>
+      </div>
+
+      <div id="action-gradient-btn" class="w-full bg-green-500 text-black font-black py-3.5 rounded-xl text-xs uppercase tracking-widest text-center mt-6 shadow-lg shadow-green-500/10">
+        Go Viral
+      </div>
+    </div>
+
+
+    <div class="flex flex-col gap-3.5 mt-2">
+      <div class="flex items-center gap-2 border-b border-zinc-800 pb-2 mb-1">
+        <i data-lucide="help-circle" class="text-zinc-500 w-4 h-4"></i>
+        <h3 class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Manual Gateway Steps Matrix</h3>
+      </div>
+
+      <div class="bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden">
+        <button onclick="toggleAdezAccordion('acc-tz')" class="w-full px-4 py-4 bg-zinc-900/30 flex items-center justify-between font-extrabold text-xs uppercase tracking-wider text-green-400">
+          <span>Tanzania Region Execution Steps</span>
+          <i data-lucide="chevron-down" id="icon-acc-tz" class="w-4 h-4 transition-matrix"></i>
+        </button>
+        <div id="acc-tz" class="hidden p-4 flex flex-col gap-5 border-t border-zinc-900 bg-black/40">
+          
+          <div class="border-l-2 border-green-500 pl-3 py-0.5">
+            <p class="font-black text-xs text-zinc-200 uppercase tracking-wide">1. Vodacom M-Pesa Protocol</p>
+            <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">Dial *150*00# -> Select Send Money Terminal -> Enter Personal Phone Number Node.</p>
+            <div class="bg-zinc-950 p-2.5 rounded-xl mt-2 border border-zinc-900 font-mono text-[11px]">
+              <p class="text-zinc-500">TARGET PHONE:</p>
+              <p class="text-green-400 font-bold text-xs select-all">255747470941</p>
+              <p class="text-zinc-500 mt-1">ACCOUNT NAME:</p>
+              <p class="text-slate-200 font-bold">MARY REGINALD</p>
+            </div>
+          </div>
+
+          <div class="border-l-2 border-red-500 pl-3 py-0.5">
+            <p class="font-black text-xs text-zinc-200 uppercase tracking-wide">2. Airtel Money Protocol</p>
+            <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">Dial *150*60# -> Choose Send Money Options Terminal -> Enter Registered Recipient Address.</p>
+            <div class="bg-zinc-950 p-2.5 rounded-xl mt-2 border border-zinc-900 font-mono text-[11px]">
+              <p class="text-zinc-500">TARGET PHONE:</p>
+              <p class="text-green-400 font-bold text-xs select-all">255780470905</p>
+              <p class="text-zinc-500 mt-1">ACCOUNT NAME:</p>
+              <p class="text-slate-200 font-bold">MARY REGINALD</p>
+            </div>
+          </div>
+
+          <div class="border-l-2 border-cyan-500 pl-3 py-0.5">
+            <p class="font-black text-xs text-zinc-200 uppercase tracking-wide">3. Tigo Pesa Gateway Node</p>
+            <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">Dial *150*01# -> Send Money Cross-Network Access -> Select Airtel Target System Address.</p>
+            <div class="bg-zinc-950 p-2.5 rounded-xl mt-2 border border-zinc-900 font-mono text-[11px]">
+              <p class="text-zinc-500">ROUTING SYSTEM TERMINAL:</p>
+              <p class="text-cyan-400 font-bold text-xs select-all">255780470905</p>
+            </div>
+          </div>
+
+          <div class="border-l-2 border-orange-500 pl-3 py-0.5">
+            <p class="font-black text-xs text-zinc-200 uppercase tracking-wide">4. Halotel Halopesa Access Pipeline</p>
+            <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">Dial *150*88# -> Select Send Money to Other Networks Directory -> Forward to Recipient Data Address.</p>
+            <div class="bg-zinc-950 p-2.5 rounded-xl mt-2 border border-zinc-900 font-mono text-[11px]">
+              <p class="text-zinc-500">ROUTING TARGET CELLULAR:</p>
+              <p class="text-orange-400 font-bold text-xs select-all">255780470905</p>
+            </div>
+          </div>
+
+          <div class="border-l-2 border-blue-500 pl-3 py-0.5">
+            <p class="font-black text-xs text-zinc-200 uppercase tracking-wide">5. TTCL Mobile Money Terminal</p>
+            <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">Dial *150*71# -> Forward balance across standard mobile exchange to destination node terminal address.</p>
+            <div class="bg-zinc-950 p-2.5 rounded-xl mt-2 border border-zinc-900 font-mono text-[11px]">
+              <p class="text-zinc-500">ROUTING TARGET ADDRESS:</p>
+              <p class="text-blue-400 font-bold text-xs select-all">255780470905</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden">
+        <button onclick="toggleAdezAccordion('acc-ke')" class="w-full px-4 py-4 bg-zinc-900/30 flex items-center justify-between font-extrabold text-xs uppercase tracking-wider text-purple-400">
+          <span>Kenya Region Execution Steps</span>
+          <i data-lucide="chevron-down" id="icon-acc-ke" class="w-4 h-4 transition-matrix"></i>
+        </button>
+        <div id="acc-ke" class="hidden p-4 flex flex-col gap-5 border-t border-zinc-900 bg-black/40">
+          
+          <div class="border-l-2 border-green-500 pl-3 py-0.5">
+            <p class="font-black text-xs text-zinc-200 uppercase tracking-wide">1. Safaricom M-Pesa Roaming Link</p>
+            <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">Open SIM Toolkit or Dial *334# -> Select Send Money Cross-Border Remittance -> Choose Tanzania via Selcom/Vodacom network endpoint terminal directly.</p>
+            <div class="bg-zinc-950 p-2.5 rounded-xl mt-2 border border-zinc-900 font-mono text-[11px]">
+              <p class="text-zinc-500">RECIPIENT CELLULAR SUITE:</p>
+              <p class="text-green-400 font-bold text-xs select-all">+255747470941</p>
+              <p class="text-zinc-500 mt-1">ACCOUNT RECORD VERIFICATION:</p>
+              <p class="text-slate-300 font-bold">MARY REGINALD</p>
+            </div>
+          </div>
+
+          <div class="border-l-2 border-red-500 pl-3 py-0.5">
+            <p class="font-black text-xs text-zinc-200 uppercase tracking-wide">2. Airtel Kenya Remittance Matrix</p>
+            <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">Dial *334# or use Airtel Money app system -> Choose International Remittances folder -> Input destination terminal node.</p>
+            <div class="bg-zinc-950 p-2.5 rounded-xl mt-2 border border-zinc-900 font-mono text-[11px]">
+              <p class="text-zinc-500">DESTINATION CELLULAR PATH:</p>
+              <p class="text-purple-400 font-bold text-xs select-all">+255780470905</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden">
+        <button onclick="toggleAdezAccordion('acc-intl')" class="w-full px-4 py-4 bg-zinc-900/30 flex items-center justify-between font-extrabold text-xs uppercase tracking-wider text-blue-400">
+          <span>International / Mini Pay USD Gateways</span>
+          <i data-lucide="chevron-down" id="icon-acc-intl" class="w-4 h-4 transition-matrix"></i>
+        </button>
+        <div id="intl-steps" class="hidden p-4 flex flex-col gap-4 border-t border-zinc-900 bg-black/40">
+          <div class="border-l-2 border-blue-400 pl-3 py-0.5">
+            <p class="font-black text-xs text-zinc-200 uppercase tracking-wide">Mini Pay Tokenized Execution</p>
+            <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">Initialize a global automated transaction packet using our linked decentralized phone terminal configuration asset index matrix.</p>
+            <div class="bg-zinc-950 p-2.5 rounded-xl mt-2 border border-zinc-900 font-mono text-[11px]">
+              <p class="text-zinc-500">MINI PAY MERCHANT ROUTE DIRECTORY:</p>
+              <p class="text-blue-400 font-bold text-xs select-all">255780470905</p>
+            </div>
+          </div>
+          <p class="text-[10px] text-zinc-500 italic leading-normal">Operational Notice: Global cross-border terminal remittances executing raw USD denominations route dynamically into our designated electronic clearing addresses provided inside the dashboard directory structure above.</p>
         </div>
       </div>
     </div>
 
-    <div class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 border-b border-slate-800 pb-2 mb-1">
-        <i data-lucide="wallet" class="text-pink-400 w-4 h-4"></i>
-        <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Select Instruction Engine</h3>
+
+    <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-5 flex flex-col gap-4">
+      <div class="flex items-center gap-2 border-b border-zinc-850 pb-2.5">
+        <i data-lucide="shield-check" class="text-emerald-500 w-4 h-4"></i>
+        <h3 class="text-[10px] font-black uppercase tracking-widest text-zinc-400">Security Dispatch Ingestion Registry</h3>
       </div>
 
-      <div class="glass-card rounded-2xl overflow-hidden border-slate-800">
-        <button onclick="toggleAccordion('tz-steps')" class="w-full px-4 py-3 bg-slate-900/40 flex items-center justify-between font-bold text-xs uppercase tracking-wider text-cyan-400">
-          <span>Tanzania Gateways (Local Mobile Money)</span>
-          <i data-lucide="chevron-down" id="icon-tz-steps" class="w-4 h-4 transition-transform"></i>
-        </button>
-        <div id="tz-steps" class="hidden p-4 flex flex-col gap-4 text-xs border-t border-slate-900 bg-slate-950/40">
-          <div class="border-l-2 border-green-500 pl-3 py-1">
-            <p class="font-extrabold text-slate-200 uppercase tracking-wide">Vodacom M-Pesa Instruction</p>
-            <p class="text-slate-400 mt-1">Dial *150*00# -> Send Money to Registered Phone Number.</p>
-            <p class="font-mono text-cyan-400 font-bold mt-1">Number: 255747470941 | Name: MARY REGINALD</p>
-          </div>
-          <div class="border-l-2 border-red-500 pl-3 py-1">
-            <p class="font-extrabold text-slate-200 uppercase tracking-wide">Airtel Money Instruction</p>
-            <p class="text-slate-400 mt-1">Dial *150*60# -> Send Money via Personal Transfers Node.</p>
-            <p class="font-mono text-cyan-400 font-bold mt-1">Number: 255780470905 | Name: MARY REGINALD</p>
-          </div>
-          <div class="border-l-2 border-orange-500 pl-3 py-1">
-            <p class="font-extrabold text-slate-200 uppercase tracking-wide">Halotel Halopesa Instruction</p>
-            <p class="text-slate-400 mt-1">Execute transfer to Airtel wallet system using dynamic roaming exchange protocols.</p>
-            <p class="font-mono text-cyan-400 font-bold mt-1">Target Number: 255780470905</p>
-          </div>
-          <div class="border-l-2 border-blue-500 pl-3 py-1">
-            <p class="font-extrabold text-slate-200 uppercase tracking-wide">Tigo Pesa & TTCL Node Instruction</p>
-            <p class="text-slate-400 mt-1">Select Send to Other Networks -> Select Airtel network terminal.</p>
-            <p class="font-mono text-cyan-400 font-bold mt-1">Target Number: 255780470905</p>
-          </div>
-        </div>
+      <div class="flex flex-col gap-1.5">
+        <label class="text-[9px] uppercase tracking-widest text-zinc-500 font-bold">Target Automation Engine Node</label>
+        <input type="text" id="inp-bot-name" readonly class="w-full adez-input rounded-xl px-3.5 py-3 text-xs font-black text-green-400 tracking-wide select-none">
       </div>
 
-      <div class="glass-card rounded-2xl overflow-hidden border-slate-800">
-        <button onclick="toggleAccordion('ke-steps')" class="w-full px-4 py-3 bg-slate-900/40 flex items-center justify-between font-bold text-xs uppercase tracking-wider text-green-400">
-          <span>Kenya Gateways (Safaricom & Airtel)</span>
-          <i data-lucide="chevron-down" id="icon-ke-steps" class="w-4 h-4 transition-transform"></i>
-        </button>
-        <div id="ke-steps" class="hidden p-4 flex flex-col gap-4 text-xs border-t border-slate-900 bg-slate-950/40">
-          <div class="border-l-2 border-green-500 pl-3 py-1">
-            <p class="font-extrabold text-slate-200 uppercase tracking-wide">Safaricom M-Pesa / Selcom Link</p>
-            <p class="text-slate-400 mt-1">Utilize Selcom roaming system node to route cross-border payment directly to Tanzanian terminal line.</p>
-            <p class="font-mono text-cyan-400 font-bold mt-1">Target Line: +255747470941</p>
-          </div>
-          <div class="border-l-2 border-red-500 pl-3 py-1">
-            <p class="font-extrabold text-slate-200 uppercase tracking-wide">Airtel Kenya Pipeline</p>
-            <p class="text-slate-400 mt-1">Use Airtel Money Cross-Border remittance options folder straight into terminal address.</p>
-            <p class="font-mono text-cyan-400 font-bold mt-1">Target Line: +255780470905</p>
-          </div>
-        </div>
+      <div class="flex flex-col gap-1.5">
+        <label class="text-[9px] uppercase tracking-widest text-zinc-500 font-bold">Transaction Reference Code / ID (Required)</label>
+        <input type="text" id="inp-receipt-code" placeholder="Input code here (e.g., SFC82819XX)" class="w-full adez-input rounded-xl px-3.5 py-3 text-xs text-white placeholder-zinc-600 transition-matrix font-mono">
       </div>
 
-      <div class="glass-card rounded-2xl overflow-hidden border-slate-800">
-        <button onclick="toggleAccordion('intl-steps')" class="w-full px-4 py-3 bg-slate-900/40 flex items-center justify-between font-bold text-xs uppercase tracking-wider text-pink-400">
-          <span>International Countries / Mini Pay (USD)</span>
-          <i data-lucide="chevron-down" id="icon-intl-steps" class="w-4 h-4 transition-transform"></i>
-        </button>
-        <div id="intl-steps" class="hidden p-4 flex flex-col gap-3 text-xs border-t border-slate-900 bg-slate-950/40">
-          <div class="border-l-2 border-pink-500 pl-3 py-1">
-            <p class="font-extrabold text-slate-200 uppercase tracking-wide">Mini Pay Gateway Direct</p>
-            <p class="text-slate-400 mt-1">Initialize global tokenized processing structure using our linked core phone index interface.</p>
-            <p class="font-mono text-cyan-400 font-bold mt-1">Mini Pay Index: 255780470905</p>
-          </div>
-          <p class="text-[11px] text-slate-400 italic">Notice: For other international locations processing in raw USD equivalents, execute via roaming digital cross-border platforms to the designated wallet terminals above.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass-card rounded-2xl p-5 flex flex-col gap-4 border-slate-800">
-      <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
-        <i data-lucide="file-check" class="text-cyan-400 w-4 h-4"></i>
-        <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Submit Transaction Verification</h3>
+      <div class="flex flex-col gap-1.5">
+        <label class="text-[9px] uppercase tracking-widest text-zinc-500 font-bold">Proof Receipt Image URL / ImgBB Link (Optional)</label>
+        <input type="text" id="inp-proof-url" placeholder="Paste verification image link address" class="w-full adez-input rounded-xl px-3.5 py-3 text-xs text-white placeholder-zinc-600 transition-matrix font-mono">
       </div>
 
-      <div class="flex flex-col gap-1">
-        <label class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Engine Selected</label>
-        <input type="text" id="form-bot-name" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs font-bold text-cyan-400 focus:outline-none">
-      </div>
-
-      <div class="flex flex-col gap-1">
-        <label class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Transaction Reference ID / Receipt Text</label>
-        <input type="text" id="form-receipt-text" placeholder="Paste Transaction Code (e.g. SFC82819XX)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-pink-500 text-slate-200">
-      </div>
-
-      <div class="flex flex-col gap-1">
-        <label class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Verification Proof Image Link (Optional)</label>
-        <input type="text" id="form-image-link" placeholder="Paste ImgBB proof image link url here" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:border-pink-500 text-slate-200">
-      </div>
-
-      <button onclick="dispatchPaymentReceipt()" class="w-full neon-bg-purple text-slate-100 font-extrabold py-3.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition duration-300 transform active:scale-95 shadow-lg shadow-purple-500/20 mt-2">
-        <span>Dispatch Verification</span>
-        <i data-lucide="send" class="w-4 h-4"></i>
+      <button onclick="compileAndDispatchPacket()" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-zinc-950 font-black py-4 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-matrix transform active:scale-95 shadow-lg shadow-green-500/10 mt-2">
+        <span>Dispatch Verification Packet</span>
+        <i data-lucide="database-zap" class="w-4 h-4"></i>
       </button>
     </div>
 
   </main>
 
-  <footer class="text-center py-4 relative z-10">
-    <p class="text-[9px] uppercase tracking-widest text-slate-600">Secure Core Framework Processing Node &copy; 2026</p>
+  <footer class="text-center py-4 relative z-10 mt-6">
+    <p class="text-[9px] uppercase tracking-widest text-zinc-700 font-bold">Adeztech Automation Pipeline Architecture Node &copy; 2026</p>
   </footer>
 
   <script>
-    // Global calculation reference state
-    let basePriceUSD = 5.00; // Static fall-back structural rate 
-    let currentCurrency = 'USD';
-    let currentBotName = 'WhatsApp Engine Node';
+    /* Baseline Structural Values Defined Globally for Low-Footprint Ingestion Engine */
+    let currencyState = 'USD';
+    let intervalState = 'MONTH';
+    let targetEngineName = 'WhatsApp Matrix Engine';
 
-    // Core exchange calculation matrices
-    const exchangeRates = {
-      USD: 1,
-      TZS: 2600, // Balanced calculation matrix
-      KES: 130
+    /* Base Pricing Scale Structure - Custom 2-Day Base scaled mathematically to weekly/monthly equivalents */
+    /* Based on 2 Days = 200 KES Baseline Engine Calibration */
+    const basePricesUSD = {
+      WEEK: 3.50,    // Standard Weekly Operational Matrix Unit
+      MONTH: 12.00,  // Standard Monthly Core Operation Pipeline Unit
+      YEAR: 110.00   // Enterprise Annual Node Matrix Allocation Unit
     };
 
-    // Extract dynamic parameter streams incoming from index.html card anchors
-    function parseQueryParameters() {
+    /* Static Floating Currency Multipliers Framework Array */
+    const crossExchangeRates = {
+      USD: 1,
+      TZS: 2650, // Standard local clearing baseline
+      KES: 130   // Kenya shilling mapping index link
+    };
+
+    /* Parse Data Fields Incoming Across Document Matrix Headers */
+    function parseDocumentParameters() {
       const urlParams = new URLSearchParams(window.location.search);
-      const rawPrice = urlParams.get('price');
       const nameParam = urlParams.get('name');
 
       if (nameParam) {
-        currentBotName = decodeURIComponent(nameParam);
-      }
-      
-      // Determine base structural USD rate mathematically
-      if (rawPrice) {
-        const parsedPrice = parseFloat(rawPrice);
-        // If incoming value looks like TZS currency scale, downsize to baseline USD map
-        basePriceUSD = parsedPrice > 500 ? parsedPrice / exchangeRates.TZS : parsedPrice;
+        targetEngineName = decodeURIComponent(nameParam);
       }
 
-      document.getElementById('invoice-bot-name').innerText = currentBotName;
-      document.getElementById('form-bot-name').value = currentBotName;
-      calculateAndDisplayPrice();
+      document.getElementById('display-bot-name').innerText = targetEngineName;
+      document.getElementById('inp-bot-name').value = targetEngineName;
+      
+      calculateAdezPriceMatrix();
     }
 
-    // Mathematical state management pipeline
-    function calculateAndDisplayPrice() {
-      const output = document.getElementById('price-output');
-      const calculatedValue = basePriceUSD * exchangeRates[currentCurrency];
+    /* Core Computation Logic Engine - Recalculates value points dynamically with zero lag */
+    function calculateAdezPriceMatrix() {
+      const outputElement = document.getElementById('display-price-output');
+      const containerCard = document.getElementById('product-card');
+      const actionBtn = document.getElementById('action-gradient-btn');
+      const badge = document.getElementById('popular-badge');
+      const subtextElement = document.getElementById('display-interval-subtext');
 
-      if (currentCurrency === 'USD') {
-        output.innerText = `$${calculatedValue.toFixed(2)}`;
-      } else if (currentCurrency === 'TZS') {
-        output.innerText = `${Math.round(calculatedValue).toLocaleString()} TZS`;
-      } else if (currentCurrency === 'KES') {
-        output.innerText = `KSh ${Math.round(calculatedValue).toLocaleString()}`;
+      // Fetch base numerical reference
+      const rawBaseUSD = basePricesUSD[intervalState];
+      const finalizedValue = rawBaseUSD * crossExchangeRates[currencyState];
+
+      // Format visual output text based on localized standards
+      if (currencyState === 'USD') {
+        outputElement.innerText = `$${finalizedValue.toFixed(2)}`;
+      } else if (currencyState === 'TZS') {
+        outputElement.innerText = `${Math.round(finalizedValue).toLocaleString()} TZS`;
+      } else if (currencyState === 'KES') {
+        outputElement.innerText = `KSh ${Math.round(finalizedValue).toLocaleString()}`;
+      }
+
+      // Update structural descriptive text logs
+      subtextElement.innerText = `Calculated Per ${intervalState.toLowerCase()} Interval Node`;
+
+      // Premium Layout Aesthetics Adjustments matching chosen intervals
+      if (intervalState === 'WEEK') {
+        containerCard.className = "adez-card-green rounded-3xl p-6 relative overflow-hidden transition-matrix";
+        actionBtn.className = "w-full bg-green-500 text-black font-black py-3.5 rounded-xl text-xs uppercase tracking-widest text-center mt-6 shadow-lg shadow-green-500/10";
+        badge.className = "absolute top-0 right-8 bg-green-500 text-black font-black text-[9px] uppercase tracking-widest px-4 py-1 rounded-b-xl";
+        badge.innerText = "Optimal Entry";
+      } else if (intervalState === 'MONTH') {
+        containerCard.className = "adez-card-purple rounded-3xl p-6 relative overflow-hidden transition-matrix";
+        actionBtn.className = "w-full bg-purple-500 text-black font-black py-3.5 rounded-xl text-xs uppercase tracking-widest text-center mt-6 shadow-lg shadow-purple-500/10";
+        badge.className = "absolute top-0 right-8 bg-purple-500 text-white font-black text-[9px] uppercase tracking-widest px-4 py-1 rounded-b-xl";
+        badge.innerText = "Most Popular";
+      } else if (intervalState === 'YEAR') {
+        containerCard.className = "adez-card-green rounded-3xl p-6 relative overflow-hidden transition-matrix border-amber-500 shadow-amber-500/10";
+        actionBtn.className = "w-full bg-gradient-to-r from-amber-500 to-yellow-400 text-zinc-950 font-black py-3.5 rounded-xl text-xs uppercase tracking-widest text-center mt-6 shadow-lg";
+        badge.className = "absolute top-0 right-8 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-black text-[9px] uppercase tracking-widest px-4 py-1 rounded-b-xl";
+        badge.innerText = "Value Empire Tiers";
       }
     }
 
-    // Toggle interactive state selections 
-    function switchCurrency(targetCurrency) {
-      currentCurrency = targetCurrency;
+    /* Change currency view states instantly on node interface click events */
+    function changeGlobalCurrency(targetCurrency) {
+      currencyState = targetCurrency;
       
-      // Clear all active selection CSS classes
+      // Reset active styles on currency buttons
       ['USD', 'TZS', 'KES'].forEach(curr => {
-        const btn = document.getElementById(`btn-${curr}`);
-        btn.classList.remove('bg-cyan-500', 'text-slate-900');
-        btn.classList.add('text-slate-400');
+        const targetBtn = document.getElementById(`currency-${curr}`);
+        targetBtn.className = "text-[10px] font-black px-3 py-1.5 rounded-lg text-zinc-400 transition-matrix";
       });
 
-      // Highlight active choice element node
-      const activeBtn = document.getElementById(`btn-${targetCurrency}`);
-      activeBtn.classList.remove('text-slate-400');
-      activeBtn.classList.add('bg-cyan-500', 'text-slate-900');
+      // Inject active premium accent style back to node choice
+      const activeBtn = document.getElementById(`currency-${targetCurrency}`);
+      activeBtn.className = "text-[10px] font-black px-3 py-1.5 rounded-lg bg-emerald-500 text-zinc-950 transition-matrix";
 
-      calculateAndDisplayPrice();
+      calculateAdezPriceMatrix();
     }
 
-    // Accordion interaction configuration map
-    function toggleAccordion(id) {
-      const target = document.getElementById(id);
-      const icon = document.getElementById(`icon-${id}`);
+    /* Change time tracking segment selection fields cleanly */
+    function changeGlobalInterval(targetInterval) {
+      intervalState = targetInterval;
       
-      if (target.classList.contains('hidden')) {
-        target.classList.remove('hidden');
-        icon.style.transform = 'rotate(180deg)';
+      // Reset active tabs backgrounds for tracking row
+      ['WEEK', 'MONTH', 'YEAR'].forEach(inte => {
+        const targetTab = document.getElementById(`interval-${inte}`);
+        targetTab.className = "flex-1 text-[10px] font-black uppercase tracking-wider py-2.5 rounded-xl text-zinc-400 transition-matrix";
+      });
+
+      const activeTab = document.getElementById(`interval-${targetInterval}`);
+      activeTab.className = "flex-1 text-[10px] font-black uppercase tracking-wider py-2.5 rounded-xl bg-zinc-800 text-slate-100 border border-zinc-700 transition-matrix";
+
+      calculateAdezPriceMatrix();
+    }
+
+    /* Custom Accordion Node state visibility modifier */
+    function toggleAdezAccordion(id) {
+      const targetDiv = document.getElementById(id);
+      const targetIcon = document.getElementById(`icon-${id}`);
+      
+      if (targetDiv.classList.contains('hidden')) {
+        targetDiv.classList.remove('hidden');
+        targetIcon.style.transform = 'rotate(180deg)';
       } else {
-        target.classList.add('hidden');
-        icon.style.transform = 'rotate(0deg)';
+        targetDiv.classList.add('hidden');
+        targetIcon.style.transform = 'rotate(0deg)';
       }
     }
 
-    // Build automated custom WhatsApp string dispatch action
-    function dispatchPaymentReceipt() {
-      const receiptText = document.getElementById('form-receipt-text').value.trim();
-      const imageLink = document.getElementById('form-image-link').value.trim();
+    /* Compile user entered form fields into direct secure WhatsApp API message stream */
+    function compileAndDispatchPacket() {
+      const receiptCode = document.getElementById('inp-receipt-code').value.trim();
+      const verificationUrl = document.getElementById('inp-proof-url').value.trim();
 
-      if (!receiptText) {
-        // Safe UX feedback loop avoiding standard disruptive browser window alerts
-        document.getElementById('form-receipt-text').focus();
-        document.getElementById('form-receipt-text').style.borderColor = '#ec4899';
+      if (!receiptCode) {
+        document.getElementById('inp-receipt-code').focus();
+        document.getElementById('inp-receipt-code').style.borderColor = '#ef4444';
         return;
       }
 
-      const targetedBillingValue = basePriceUSD * exchangeRates[currentCurrency];
-      let displayPriceString = "";
-      if (currentCurrency === 'USD') displayPriceString = `$${targetedBillingValue.toFixed(2)}`;
-      if (currentCurrency === 'TZS') displayPriceString = `${Math.round(targetedBillingValue).toLocaleString()} TZS`;
-      if (currentCurrency === 'KES') displayPriceString = `KSh ${Math.round(targetedBillingValue).toLocaleString()}`;
-
-      // Structural text formulation for WhatsApp ingestion logs
-      const whatsappMessage = `Hello Admin, I have initialized a deployment purchase transaction packet.
+      // Generate localized string representation of active cost state profiles
+      const targetCalculatedCost = basePricesUSD[intervalState] * crossExchangeRates[currencyState];
+      let pricingValueLogString = "";
       
-*SYSTEM INVOICE DETAILS*
-Engine: ${currentBotName}
-Amount Charged: ${displayPriceString}
-Currency Node: ${currentCurrency}
+      if (currencyState === 'USD') pricingValueLogString = `$${targetCalculatedCost.toFixed(2)}`;
+      if (currencyState === 'TZS') pricingValueLogString = `${Math.round(targetCalculatedCost).toLocaleString()} TZS`;
+      if (currencyState === 'KES') pricingValueLogString = `KSh ${Math.round(targetCalculatedCost).toLocaleString()}`;
 
-*TRANSACTION VALIDATION PROOF*
-Receipt Code: ${receiptText}
-Proof Image Link: ${imageLink ? imageLink : 'Not Provided'}
+      // Assemble plain English payload data structure segment block parameters
+      const trackingMessagePayload = `Hello Admin, I have successfully executed a premium distribution deployment transaction record block.
 
-Please verify my payment matrix record and return my configuration launch secret key token.`;
+*SUBSCRIPTION PROFILE RECORD*
+Engine Node: ${targetEngineName}
+Pricing Profile Cost: ${pricingValueLogString}
+Interval Group Class: ${intervalState}
+Currency Node Path: ${currencyState}
 
-      // Formulate target address redirect url mapping string safely
-      const encodedMessage = encodeURIComponent(whatsappMessage);
-      window.location.href = `https://wa.me/255747470941?text=${encodedMessage}`;
+*CRYPTO / MANUAL TRANSMISSION VERIFICATION PROOF*
+Receipt Reference Code: ${receiptCode}
+ImgBB Verification Address Link: ${verificationUrl ? verificationUrl : 'Not Provided'}
+
+Please verify the network node record pipeline registry and return my deployment activation launch secret token.`;
+
+      const parsedUrlMessageString = encodeURIComponent(trackingMessagePayload);
+      
+      // Dispatch immediately via browser location mapping sequence directly to terminal number
+      window.location.href = `https://wa.me/255747470941?text=${parsedUrlMessageString}`;
     }
 
-    // Initialize systems execution on viewport creation
-    parseQueryParameters();
+    // Execute core parsing directives on initial template ingestion
+    parseDocumentParameters();
     lucide.createIcons();
   </script>
 </body>
