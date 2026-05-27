@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dgift Shops - Own Your WhatsApp Bot</title>
+<style>
+  :root {
+    --black: #000;
+    --glass: rgba(20,20,30,0.4);
+    --green: #00ff88;
+    --purple: #8b00ff;
+    --cyan: #00f5ff;
+    --pink: #ff00c8;
+    --text: #e6e6e6;
+    --muted: #9aa0a6;
+  }
+
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 20% 20%, rgba(139,0,255,0.3), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0,245,255,0.2), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255,0,200,0.15), transparent 50%);
+    filter: blur(80px);
+    z-index: -1;
+  }
+
+  .glass {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+
+  .glow-green { box-shadow: 0 0 20px rgba(0,255,136,0.4); }
+  .glow-cyan { box-shadow: 0 0 20px rgba(0,245,255,0.4); }
+  .glow-pink { box-shadow: 0 0 20px rgba(255,0,200,0.4); }
+
+  .btn {
+    padding: 16px 32px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--cyan), var(--pink));
+    color: #000;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,245,255,0.4);
+  }
+
+  .btn-buy {
+    background: linear-gradient(135deg, var(--green), var(--cyan));
+    color: #000;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--cyan), var(--pink), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Features */
+  .features {
+    padding: 80px 0;
+  }
+
+  .features h2 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 50px;
+  }
+
+  .feature-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  .feature-card {
+    padding: 30px;
+    text-align: left;
+  }
+
+  .feature-card h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: var(--cyan);
+  }
+
+  .feature-card p {
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Shop Section */
+  .shop {
+    padding: 60px 0 120px;
+    display: none;
+  }
+
+  .shop.active {
+    display: block;
+  }
+
+  .shop-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .shop-header h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .shop-header p {
+    color: var(--muted);
+  }
+
+  .bot-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .bot-card {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .bot-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .bot-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 15px rgba(0,245,255,0.5);
+    flex-shrink: 0;
+  }
+
+  .bot-info {
+    flex: 1;
+  }
+
+  .bot-name {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .bot-owner {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .bot-number {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-top: 8px;
+  }
+
+  .status.online {
+    background: rgba(0,255,136,0.15);
+    color: var(--green);
+  }
+
+  .status.offline {
+    background: rgba(255,0,200,0.15);
+    color: var(--pink);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .status.online .status-dot {
+    background: var(--green);
+  }
+
+  .status.offline .status-dot {
+    background: var(--pink);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .loading {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 60px 20px;
+  }
+
+  /* Buy Key Section */
+  .buy-key {
+    margin-top: 60px;
+    padding: 40px 30px;
+    text-align: center;
+  }
+
+  .buy-key h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--green), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .buy-key p {
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  /* Responsive */
+  @media(min-width: 768px) {
+    .hero h1 { font-size: 72px; }
+    .feature-grid { grid-template-columns: repeat(2, 1fr); }
+    .bot-card { padding: 30px 40px; }
+    .bot-avatar { width: 100px; height: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Landing -->
+<section class="hero" id="landing">
+  <div class="container">
+    <h1>Own Your WhatsApp Bot in 60 Seconds</h1>
+    <p>
+      Dgift Shops gives you instant access to premium, fully managed WhatsApp bots. 
+      No technical setup, no servers, no hassle. Just buy, configure, and go live instantly 
+      with enterprise-grade uptime, beautiful dashboards, and 24/7 reliability. 
+      Whether you run a business, community, or automation service, your bot is deployed 
+      and ready in under a minute. Fast, secure, and built for scale.
+    </p>
+    <button class="btn btn-primary glow-cyan" id="getStartedBtn">Get Started</button>
+    
+    <div class="features">
+      <h2>Why Choose Dgift Shops</h2>
+      <div class="feature-grid">
+        <div class="feature-card glass">
+          <h3>Instant Deployment</h3>
+          <p>Your bot goes live the moment you complete setup. No waiting, no manual configuration, no downtime.</p>
+        </div>
+        <div class="feature-card glass">
+          <h3>Premium Performance</h3>
+          <p>Built on high-performance infrastructure with 99.9% uptime. Your bot stays online when it matters most.</p>
+        </div>
+        <div class="feature-card glass">
+          <h3>Full Control Panel</h3>
+          <p>Manage settings, upload media, and monitor status from one clean dashboard. Everything is at your fingertips.</p>
+        </div>
+        <div class="feature-card glass">
+          <h3>Secure & Private</h3>
+          <p>Each bot runs in isolation with encrypted sessions. Your data and conversations stay private and secure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Shop -->
+<section class="shop" id="shop">
+  <div class="container">
+    <div class="shop-header">
+      <h2>Active Bots</h2>
+      <p>Browse live bots deployed through Dgift Shops</p>
+    </div>
+    
+    <div class="bot-grid" id="botGrid">
+      <div class="loading">Loading bots...</div>
+    </div>
+
+    <div class="buy-key glass glow-green">
+      <h3>Want Your Own Bot?</h3>
+      <p>Get an activation key instantly. Chat with us on WhatsApp to purchase and deploy your bot right now.</p>
+      <a href="https://wa.me/255747470941?text=Hello%20Dgift%20Shops%2C%20I%20want%20to%20buy%20a%20bot%20activation%20key" 
+         target="_blank" 
+         class="btn btn-buy glow-green">
+        Buy Activation Key on WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const getStartedBtn = document.getElementById('getStartedBtn');
+  const landing = document.getElementById('landing');
+  const shop = document.getElementById('shop');
+  const botGrid = document.getElementById('botGrid');
+
+  // Check if user already entered shop
+  window.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('entered_shop') === 'true') {
+      enterShop(false);
+    }
+  });
+
+  getStartedBtn.addEventListener('click', () => {
+    sessionStorage.setItem('entered_shop', 'true');
+    enterShop(true);
+  });
+
+  function enterShop(scrollSmooth) {
+    landing.style.display = 'none';
+    shop.classList.add('active');
+    loadBots();
+    if (scrollSmooth) {
+      shop.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  async function loadBots() {
+    try {
+      const res = await fetch('/api/get-bots');
+      const bots = await res.json();
+      
+      if (!bots || bots.length === 0) {
+        botGrid.innerHTML = '<div class="empty">No active bots yet. Be the first to deploy one!</div>';
+        return;
+      }
+
+      botGrid.innerHTML = bots.map(bot => `
+        <div class="bot-card glass ${bot.online ? 'glow-green' : 'glow-pink'}">
+          <img src="${bot.imgbb_url || 'https://via.placeholder.com/100/000/00f5ff?text=Bot'}" 
+               alt="${bot.bot_name}" 
+               class="bot-avatar">
+          <div class="bot-info">
+            <div class="bot-name">${escapeHtml(bot.bot_name || 'Unnamed Bot')}</div>
+            <div class="bot-owner">Owner: ${escapeHtml(bot.owner_name || 'Anonymous')}</div>
+            <div class="bot-number">${escapeHtml(bot.owner_number || 'N/A')}</div>
+            <div class="status ${bot.online ? 'online' : 'offline'}">
+              <span class="status-dot"></span>
+              ${bot.online ? 'Online' : 'Offline'}
+            </div>
+          </div>
+        </div>
+      `).join('');
+      
+    } catch (err) {
+      botGrid.innerHTML = '<div class="empty">Failed to load bots. Please refresh.</div>';
+      console.error(err);
+    }
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+</html>
