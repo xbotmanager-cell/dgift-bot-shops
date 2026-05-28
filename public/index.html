@@ -275,10 +275,15 @@
     background: radial-gradient(circle, rgba(0,255,136,0.1), transparent 40%);
     opacity: 0;
     transition: opacity 0.4s ease;
+    pointer-events: none;
   }
 
   .bot-card:hover::after {
     opacity: 1;
+  }
+
+  .bot-card:hover {
+    transform: translateY(-6px) scale(1.01);
   }
 
   .bot-avatar {
@@ -536,6 +541,9 @@
   const shop = document.getElementById('shop');
   const botGrid = document.getElementById('botGrid');
 
+  let autoRefreshInterval = null;
+
+  // Keep existing logic
   window.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('entered_shop') === 'true') {
       enterShop(false);
@@ -551,6 +559,11 @@
     landing.style.display = 'none';
     shop.classList.add('active');
     loadBots();
+    
+    // Auto refresh every 30 seconds
+    if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+    autoRefreshInterval = setInterval(loadBots, 30000);
+    
     if (scrollSmooth) {
       shop.scrollIntoView({ behavior: 'smooth' });
     }
