@@ -53,7 +53,7 @@
     50% { transform: translate(5%, 5%) scale(1.05); }
   }
 
-  .glass {
+ .glass {
     background: var(--glass);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
@@ -63,7 +63,7 @@
     transition: all 0.4s ease;
   }
 
-  .glass-dim {
+ .glass-dim {
     background: var(--glass-dim);
     backdrop-filter: blur(16px);
     border: 1px solid rgba(255,255,255,0.04);
@@ -71,11 +71,11 @@
     opacity: 0.6;
   }
 
-  .glow-green { box-shadow: 0 0 30px rgba(0,255,136,0.35); }
-  .glow-purple { box-shadow: 0 0 30px rgba(139,92,246,0.35); }
-  .glow-gold { box-shadow: 0 0 30px rgba(250,204,21,0.35); }
+ .glow-green { box-shadow: 0 0 30px rgba(0,255,136,0.35); }
+ .glow-purple { box-shadow: 0 0 30px rgba(139,92,246,0.35); }
+ .glow-gold { box-shadow: 0 0 30px rgba(250,204,21,0.35); }
 
-  .btn {
+ .btn {
     padding: 14px 32px;
     border-radius: 50px;
     border: none;
@@ -89,42 +89,42 @@
     overflow: hidden;
   }
 
-  .btn:disabled {
+ .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
 
-  .btn-primary {
+ .btn-primary {
     background: linear-gradient(135deg, var(--purple), var(--green));
     color: var(--black);
   }
 
-  .btn-primary:hover:not(:disabled) {
+ .btn-primary:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 12px 35px rgba(139,92,246,0.5);
   }
 
-  .btn-gold {
+ .btn-gold {
     background: linear-gradient(135deg, var(--gold), var(--green));
     color: var(--black);
   }
 
-  .btn-gold:hover:not(:disabled) {
+ .btn-gold:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 12px 35px rgba(250,204,21,0.5);
   }
 
-  .btn-secondary {
+ .btn-secondary {
     background: rgba(255,255,255,0.08);
     color: var(--text);
     border: 1px solid rgba(255,255,255,0.1);
   }
 
-  .btn-secondary:hover:not(:disabled) {
+ .btn-secondary:hover:not(:disabled) {
     background: rgba(255,255,255,0.12);
   }
 
-  .btn-error {
+ .btn-error {
     animation: shake 0.3s ease;
   }
 
@@ -134,20 +134,20 @@
     75% { transform: translateX(4px); }
   }
 
-  .container {
+ .container {
     max-width: 1000px;
     margin: 0 auto;
     padding: 40px 20px;
   }
 
-  .login-card {
+ .login-card {
     padding: 50px 40px;
     text-align: center;
     max-width: 500px;
     margin: 0 auto;
   }
 
-  .login-card h2 {
+ .login-card h2 {
     font-size: 28px;
     margin-bottom: 12px;
     background: linear-gradient(135deg, var(--purple), var(--green));
@@ -155,12 +155,12 @@
     -webkit-text-fill-color: transparent;
   }
 
-  .login-card p {
+ .login-card p {
     color: var(--muted);
     margin-bottom: 30px;
   }
 
-  .key-input {
+ .key-input {
     width: 100%;
     padding: 16px 24px;
     border-radius: 50px;
@@ -173,12 +173,12 @@
     transition: all 0.3s ease;
   }
 
-  .key-input:focus {
+ .key-input:focus {
     border-color: var(--green);
     box-shadow: 0 0 20px rgba(0,255,136,0.3);
   }
 
-  .error-box {
+ .error-box {
     background: rgba(255,77,77,0.1);
     border: 1px solid rgba(255,77,77,0.3);
     color: var(--error);
@@ -189,7 +189,7 @@
     display: none;
   }
 
-  .success-box {
+ .success-box {
     background: rgba(0,255,136,0.1);
     border: 1px solid rgba(0,255,136,0.3);
     color: var(--green);
@@ -200,11 +200,11 @@
     display: none;
   }
 
-  .panel {
+ .panel {
     display: none;
   }
 
-  .panel.active {
+ .panel.active {
     display: block;
     animation: fadeIn 0.5s ease;
   }
@@ -214,7 +214,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .panel-header {
+ .panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -223,36 +223,36 @@
     gap: 20px;
   }
 
-  .panel-header h2 {
+ .panel-header h2 {
     font-size: 32px;
     background: linear-gradient(135deg, var(--gold), var(--green));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .panel-actions {
+ .panel-actions {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
   }
 
-  .section {
+ .section {
     margin-bottom: 30px;
   }
 
-  .section-header {
+ .section-header {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 20px;
   }
 
-  .section-header h3 {
+ .section-header h3 {
     font-size: 22px;
     color: var(--light-green);
   }
 
-  .section-badge {
+ .section-badge {
     font-size: 12px;
     padding: 4px 12px;
     border-radius: 20px;
@@ -261,25 +261,26 @@
     border: 1px solid rgba(139,92,246,0.3);
   }
 
-  .form-grid {
+ .form-grid {
     display: grid;
     gap: 20px;
   }
 
-  .form-group {
+ .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
 
-  .form-group label {
+ .form-group label {
     font-size: 14px;
     color: var(--muted);
     font-weight: 500;
+    text-transform: capitalize;
   }
 
-  .form-group input,
-  .form-group select {
+ .form-group input,
+ .form-group select {
     padding: 14px 20px;
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.1);
@@ -290,19 +291,19 @@
     transition: all 0.3s ease;
   }
 
-  .form-group input:focus,
-  .form-group select:focus {
+ .form-group input:focus,
+ .form-group select:focus {
     border-color: var(--green);
     box-shadow: 0 0 15px rgba(0,255,136,0.2);
   }
 
-  .form-group input:disabled,
-  .form-group select:disabled {
+ .form-group input:disabled,
+ .form-group select:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
 
-  .toggle-group {
+ .toggle-group {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -312,23 +313,24 @@
     border: 1px solid rgba(255,255,255,0.06);
   }
 
-  .toggle-info {
+ .toggle-info {
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
 
-  .toggle-info span {
+ .toggle-info span {
     font-size: 15px;
     font-weight: 500;
+    text-transform: capitalize;
   }
 
-  .toggle-info small {
+ .toggle-info small {
     font-size: 13px;
     color: var(--muted);
   }
 
-  .toggle-switch {
+ .toggle-switch {
     position: relative;
     width: 52px;
     height: 28px;
@@ -338,11 +340,11 @@
     transition: 0.3s;
   }
 
-  .toggle-switch.active {
+ .toggle-switch.active {
     background: var(--green);
   }
 
-  .toggle-switch::after {
+ .toggle-switch::after {
     content: '';
     position: absolute;
     width: 22px;
@@ -354,22 +356,22 @@
     transition: 0.3s;
   }
 
-  .toggle-switch.active::after {
+ .toggle-switch.active::after {
     left: 27px;
   }
 
-  .optional-toggle {
+ .optional-toggle {
     text-align: center;
     margin: 30px 0;
   }
 
-  .lock-icon {
+ .lock-icon {
     display: inline-block;
     margin-right: 6px;
   }
 
   @media(min-width: 768px) {
-    .form-grid {
+   .form-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -397,7 +399,7 @@
         <p style="color: var(--muted); font-size: 14px;" id="instanceInfo"></p>
       </div>
       <div class="panel-actions">
-        <button class="btn btn-secondary" id="goToBotBtn">Nenda Kwenye Bot</button>
+        <button class="btn btn-secondary" id="goToBotBtn">Go to Bot</button>
         <button class="btn btn-gold glow-gold" id="saveBtn">Save Changes</button>
       </div>
     </div>
@@ -405,123 +407,15 @@
     <div class="success-box" id="saveSuccess">Settings saved successfully!</div>
     <div class="error-box" id="saveError"></div>
 
-    <!-- Required Settings -->
-    <div class="section">
-      <div class="section-header">
-        <h3>Required Settings</h3>
-        <span class="section-badge">Must Fill</span>
-      </div>
-      <div class="form-grid glass" style="padding: 30px;">
-        <div class="form-group">
-          <label>Owner Number</label>
-          <input type="text" id="owner_number" placeholder="2557XXXXXXXX">
-        </div>
-        <div class="form-group">
-          <label>Owner Name</label>
-          <input type="text" id="owner_name" placeholder="Your Name">
-        </div>
-        <div class="form-group">
-          <label>Bot Name</label>
-          <input type="text" id="botname" placeholder="dgift-bot">
-        </div>
-        <div class="form-group">
-          <label>Prefix</label>
-          <input type="text" id="prefix" placeholder=".">
-        </div>
-        <div class="form-group" style="grid-column: 1 / -1;">
-          <label>Bot Image URL / Startup Image</label>
-          <input type="text" id="startup_image" placeholder="https://i.ibb.co/...">
-        </div>
-      </div>
-    </div>
-
-    <!-- Optional Booleans -->
-    <div class="optional-toggle">
-      <button class="btn btn-secondary" id="toggleOptional">
-        <span class="lock-icon">⚙️</span> Show Advanced Options
-      </button>
-    </div>
-
-    <div id="optionalSection" style="display: none;">
-      <div class="section">
-        <div class="section-header">
-          <h3>Feature Toggles</h3>
-          <span class="section-badge">Optional</span>
-        </div>
-        <div class="form-grid">
-          <div class="toggle-group glass">
-            <div class="toggle-info">
-              <span>Public Mode</span>
-              <small>Allow anyone to use bot commands</small>
-            </div>
-            <div class="toggle-switch" data-field="public_mode"></div>
-          </div>
-          <div class="toggle-group glass">
-            <div class="toggle-info">
-              <span>Anti-Link</span>
-              <small>Auto delete links in groups</small>
-            </div>
-            <div class="toggle-switch" data-field="antilink"></div>
-          </div>
-          <div class="toggle-group glass">
-            <div class="toggle-info">
-              <span>Anti-Spam</span>
-              <small>Block spam messages</small>
-            </div>
-            <div class="toggle-switch" data-field="antispam"></div>
-          </div>
-          <div class="toggle-group glass">
-            <div class="toggle-info">
-              <span>Auto Read</span>
-              <small>Mark messages as read automatically</small>
-            </div>
-            <div class="toggle-switch" data-field="autoread"></div>
-          </div>
-          <div class="toggle-group glass">
-            <div class="toggle-info">
-              <span>Auto Typing</span>
-              <small>Show typing indicator</small>
-            </div>
-            <div class="toggle-switch" data-field="autotyping"></div>
-          </div>
-          <div class="toggle-group glass">
-            <div class="toggle-info">
-              <span>Auto View Status</span>
-              <small>View statuses automatically</small>
-            </div>
-            <div class="toggle-switch" data-field="autoviewstatus"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Non-Important Fields -->
-      <div class="section">
-        <div class="section-header">
-          <h3>Other Settings</h3>
-          <span class="section-badge" style="background: rgba(163,163,163,0.2); color: var(--muted); border-color: rgba(163,163,163,0.3);">Non-Important</span>
-        </div>
-        <div class="form-grid glass-dim" style="padding: 30px;">
-          <div class="form-group">
-            <label>Accode</label>
-            <input type="text" id="accode" disabled>
-          </div>
-          <div class="form-group">
-            <label>Custom Settings JSON</label>
-            <input type="text" id="settings" disabled placeholder="Advanced JSON settings">
-          </div>
-          <p style="grid-column: 1 / -1; text-align: center; color: var(--muted); font-size: 13px;">
-            🔒 These fields are locked. Contact support to enable them.
-          </p>
-        </div>
-      </div>
-    </div>
+    <!-- Dynamic Settings -->
+    <div id="dynamicSettings"></div>
   </div>
 </div>
 
 <script>
   const STORAGE_KEY = 'dgift_panel_key'
   const STORAGE_INSTANCE = 'dgift_panel_instance'
-  
+
   let currentKey = null
   let currentInstance = null
   let currentSettings = {}
@@ -529,7 +423,7 @@
   window.addEventListener('DOMContentLoaded', () => {
     const savedKey = localStorage.getItem(STORAGE_KEY)
     const savedInstance = localStorage.getItem(STORAGE_INSTANCE)
-    
+
     if (savedKey && savedInstance) {
       currentKey = savedKey
       currentInstance = savedInstance
@@ -545,53 +439,41 @@
       if (e.key === 'Enter') handleVerify()
     })
     keyInput.addEventListener('input', () => resetButtonState(verifyBtn))
-    
+
     saveBtn.addEventListener('click', handleSave)
     document.getElementById('goToBotBtn').addEventListener('click', goToBot)
-    document.getElementById('toggleOptional').addEventListener('click', toggleOptional)
-    
-    document.querySelectorAll('.toggle-switch').forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        toggle.classList.toggle('active')
-        resetButtonState(saveBtn)
-      })
-    })
-
-    document.querySelectorAll('#panelSection input').forEach(input => {
-      input.addEventListener('input', () => resetButtonState(saveBtn))
-    })
   })
 
   async function handleVerify() {
     const key = document.getElementById('keyInput').value.trim()
     hideError('loginError')
     resetButtonState(document.getElementById('verifyBtn'))
-    
+
     if (!key) {
       showError('loginError', 'Please enter your activation key', 'verifyBtn')
       return
     }
 
     setLoading('verifyBtn', true)
-    
+
     try {
       const res = await fetch('/api/activate-key', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ key })
       })
-      
+
       const text = await res.text()
       let data
       try { data = JSON.parse(text) } catch { data = { error: text } }
-      
+
       if (!res.ok) throw new Error(data.error || 'Invalid key')
-      
+
       currentKey = key
       currentInstance = data.instance_id
       localStorage.setItem(STORAGE_KEY, key)
       localStorage.setItem(STORAGE_INSTANCE, data.instance_id)
-      
+
       await loadSettings()
     } catch (err) {
       showError('loginError', err.message, 'verifyBtn')
@@ -602,13 +484,13 @@
 
   async function loadSettings() {
     setLoading('verifyBtn', true)
-    
+
     try {
       const res = await fetch(`/api/get-settings?key=${encodeURIComponent(currentKey)}&instance_id=${encodeURIComponent(currentInstance)}`)
       const data = await res.json()
-      
+
       if (!res.ok) throw new Error(data.error || 'Failed to load settings')
-      
+
       currentSettings = data
       showPanel(data)
     } catch (err) {
@@ -622,25 +504,109 @@
   function showPanel(settings) {
     document.getElementById('loginSection').style.display = 'none'
     document.getElementById('panelSection').classList.add('active')
-    
+
     document.getElementById('panelTitle').textContent = settings.botname || 'Bot Settings'
     document.getElementById('instanceInfo').textContent = `Instance: ${currentInstance}`
-    
-    document.getElementById('owner_number').value = settings.owner_number || ''
-    document.getElementById('owner_name').value = settings.owner_name || ''
-    document.getElementById('botname').value = settings.botname || ''
-    document.getElementById('prefix').value = settings.prefix || '.'
-    document.getElementById('startup_image').value = settings.startup_image || ''
-    
-    setToggle('public_mode', settings.public_mode)
-    setToggle('antilink', settings.antilink)
-    setToggle('antispam', settings.antispam)
-    setToggle('autoread', settings.autoread)
-    setToggle('autotyping', settings.autotyping)
-    setToggle('autoviewstatus', settings.autoviewstatus)
-    
-    document.getElementById('accode').value = settings.accode || ''
-    document.getElementById('settings').value = settings.settings || ''
+
+    renderDynamicFields(settings)
+  }
+
+  function renderDynamicFields(settings) {
+    const container = document.getElementById('dynamicSettings')
+    container.innerHTML = ''
+
+    const editableFields = []
+    const readonlyFields = []
+
+    Object.keys(settings).forEach(key => {
+      if (key === 'id' || key === 'instance_id') return
+
+      const value = settings[key]
+      const isBoolean = typeof value === 'boolean'
+      const isReadonly = key === 'accode' || key === 'settings' || key.includes('created') || key.includes('updated')
+
+      if (isReadonly) {
+        readonlyFields.push({ key, value })
+      } else if (isBoolean) {
+        editableFields.push({ key, value, type: 'boolean' })
+      } else {
+        editableFields.push({ key, value, type: 'text' })
+      }
+    })
+
+    // Render editable section
+    if (editableFields.length > 0) {
+      const section = document.createElement('div')
+      section.className = 'section'
+      section.innerHTML = `
+        <div class="section-header">
+          <h3>Editable Settings</h3>
+          <span class="section-badge">Can Edit</span>
+        </div>
+        <div class="form-grid glass" style="padding: 30px;" id="editableGrid"></div>
+      `
+      container.appendChild(section)
+
+      const grid = section.querySelector('#editableGrid')
+
+      editableFields.forEach(field => {
+        if (field.type === 'boolean') {
+          grid.innerHTML += `
+            <div class="toggle-group glass">
+              <div class="toggle-info">
+                <span>${field.key.replace(/_/g, ' ')}</span>
+                <small>Toggle this setting</small>
+              </div>
+              <div class="toggle-switch ${field.value? 'active' : ''}" data-field="${field.key}"></div>
+            </div>
+          `
+        } else {
+          grid.innerHTML += `
+            <div class="form-group">
+              <label>${field.key.replace(/_/g, ' ')}</label>
+              <input type="text" id="${field.key}" value="${field.value || ''}">
+            </div>
+          `
+        }
+      })
+
+      // Attach events
+      grid.querySelectorAll('.toggle-switch').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          toggle.classList.toggle('active')
+          resetButtonState(document.getElementById('saveBtn'))
+        })
+      })
+
+      grid.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', () => resetButtonState(document.getElementById('saveBtn')))
+      })
+    }
+
+    // Render readonly section
+    if (readonlyFields.length > 0) {
+      const section = document.createElement('div')
+      section.className = 'section'
+      section.innerHTML = `
+        <div class="section-header">
+          <h3>Other Settings</h3>
+          <span class="section-badge" style="background: rgba(163,163,163,0.2); color: var(--muted); border-color: rgba(163,163,163,0.3);">Read Only</span>
+        </div>
+        <div class="form-grid glass-dim" style="padding: 30px;" id="readonlyGrid"></div>
+      `
+      container.appendChild(section)
+
+      const grid = section.querySelector('#readonlyGrid')
+
+      readonlyFields.forEach(field => {
+        grid.innerHTML += `
+          <div class="form-group">
+            <label>${field.key.replace(/_/g, ' ')}</label>
+            <input type="text" id="${field.key}" value="${typeof field.value === 'object'? JSON.stringify(field.value) : field.value || ''}" disabled>
+          </div>
+        `
+      })
+    }
   }
 
   async function handleSave() {
@@ -648,36 +614,38 @@
     hideSuccess('saveSuccess')
     resetButtonState(document.getElementById('saveBtn'))
     setLoading('saveBtn', true)
-    
+
     try {
       const payload = {
         key: currentKey,
-        instance_id: currentInstance,
-        owner_number: document.getElementById('owner_number').value,
-        owner_name: document.getElementById('owner_name').value,
-        botname: document.getElementById('botname').value,
-        prefix: document.getElementById('prefix').value,
-        startup_image: document.getElementById('startup_image').value,
-        public_mode: getToggle('public_mode'),
-        antilink: getToggle('antilink'),
-        antispam: getToggle('antispam'),
-        autoread: getToggle('autoread'),
-        autotyping: getToggle('autotyping'),
-        autoviewstatus: getToggle('autoviewstatus')
+        instance_id: currentInstance
       }
-      
+
+      // Collect all editable fields dynamically
+      document.querySelectorAll('#editableGrid input, #editableGrid.toggle-switch').forEach(el => {
+        const field = el.id || el.getAttribute('data-field')
+        if (el.classList.contains('toggle-switch')) {
+          payload[field] = el.classList.contains('active')
+        } else {
+          payload[field] = el.value
+        }
+      })
+
       const res = await fetch('/api/save-settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
-      
+
       const data = await res.json()
-      
+
       if (!res.ok) throw new Error(data.error || 'Failed to save')
-      
+
       showSuccess('saveSuccess')
       setTimeout(() => hideSuccess('saveSuccess'), 3000)
+
+      // Reload to show updated data
+      await loadSettings()
     } catch (err) {
       showError('saveError', err.message, 'saveBtn')
     } finally {
@@ -689,9 +657,9 @@
     try {
       const res = await fetch(`/api/get-instance?key=${encodeURIComponent(currentKey)}&instance_id=${encodeURIComponent(currentInstance)}`)
       const data = await res.json()
-      
+
       if (!res.ok) throw new Error(data.error || 'Failed to get instance')
-      
+
       if (data.render_url) {
         window.open(data.render_url, '_blank')
       } else {
@@ -702,36 +670,12 @@
     }
   }
 
-  function toggleOptional() {
-    const section = document.getElementById('optionalSection')
-    const btn = document.getElementById('toggleOptional')
-    const isHidden = section.style.display === 'none'
-    
-    section.style.display = isHidden ? 'block' : 'none'
-    btn.innerHTML = isHidden 
-      ? '<span class="lock-icon">🔒</span> Hide Advanced Options' 
-      : '<span class="lock-icon">⚙️</span> Show Advanced Options'
-  }
-
-  function setToggle(field, value) {
-    const toggle = document.querySelector(`[data-field="${field}"]`)
-    if (toggle) {
-      if (value) toggle.classList.add('active')
-      else toggle.classList.remove('active')
-    }
-  }
-
-  function getToggle(field) {
-    const toggle = document.querySelector(`[data-field="${field}"]`)
-    return toggle ? toggle.classList.contains('active') : false
-  }
-
   function showError(id, msg, btnId = null) {
     const el = document.getElementById(id)
     if (!el) return
     el.textContent = msg
     el.style.display = 'block'
-    
+
     if (btnId) {
       const btn = document.getElementById(btnId)
       btn.classList.add('btn-error')
