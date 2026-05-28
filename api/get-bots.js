@@ -7,7 +7,7 @@ export default async function handler(req, res) {
       return res.status(405).json({ error: 'Method not allowed' })
     }
 
-    // Get ALL bots from b_settings
+    // Chukua bots zote
     const { data: settings, error: settingsErr } = await supabase
       .from('b_settings')
       .select('*')
@@ -21,28 +21,25 @@ export default async function handler(req, res) {
       return res.status(200).json([])
     }
 
-    // Get all sessions from bu_sessions
+    // Chukua sessions zote
     const { data: sessions, error: sessionsErr } = await supabase
       .from('bu_sessions')
-      .select('instance_id, status, updated_at')
+      .select('id, updated_at')
 
     if (sessionsErr) {
       return res.status(500).json({ error: sessionsErr.message })
     }
 
-    // Build session map for fast lookup
+    // Weka sessions kwenye map kwa ajili ya match haraka
     const sessionMap = new Map()
     sessions?.forEach(s => {
-      sessionMap.set(s.instance_id, {
-        status: s.status,
-        updated_at: s.updated_at
-      })
+      sessionMap.set(s.id, s.updated_at)
     })
 
-    // Map bots with online status and correct image field
+    // Pangia bots na status
     const bots = settings.map(bot => {
-      const session = sessionMap.get(bot.id)
-      const isOnline = session && session.status === 'used' && isRecent(session.updated_at)
+      const lastSeen = sessionMap.get(bot.id)
+      const isOnline = lastSeen ? isRecent(lastSeen) : false
 
       return {
         id: bot.id,
@@ -51,7 +48,7 @@ export default async function handler(req, res) {
         owner_number: bot.owner_number || 'N/A',
         imgbb_url: bot.startup_image || null,
         online: isOnline,
-        last_seen: session?.updated_at || null
+        last_seen: lastSeen || null
       }
     })
 
@@ -62,11 +59,11 @@ export default async function handler(req, res) {
   }
 }
 
-// Check if session was updated in last 2 minutes
+// Check kama session imeupdate ndani ya dakika 10
 function isRecent(timestamp) {
   if (!timestamp) return false
   const lastSeen = new Date(timestamp).getTime()
   const now = Date.now()
-  const twoMinutes = 2 * 60 * 1000
-  return (now - lastSeen) < twoMinutes
+  const tenMinutes = 10 * 60 * 1000
+  return (now - lastSeen) < tenMinutes
 }
