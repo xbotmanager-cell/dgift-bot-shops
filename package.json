@@ -7,9 +7,13 @@
     "node": "24.x"
   },
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "serve public -l 3000",
+    "vercel-dev": "vercel dev"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.6"
   }
 }

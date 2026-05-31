@@ -3,573 +3,1462 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dgift Shops - Own Your WhatsApp Bot</title>
+<title>Dgift Bot Shops - Premium WhatsApp Automation</title>
+<meta name="description" content="Get your WhatsApp bot deployed in 60 seconds. Premium automation for businesses in Tanzania.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0a0a0a;
-    --dark-black: #050505;
-    --glass: rgba(18, 22, 28, 0.45);
-    --green: #00ff88;
-    --purple: #8b5cf6;
-    --gold: #facc15;
-    --light-green: #4ade80;
-    --text: #f5f5f5;
-    --muted: #a3a3a3;
+    --black: #030712;
+    --dark: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --cyan: #06b6d4;
+    --blue: #3b82f6;
+    --cyan-glow: rgba(6, 182, 212, 0.4);
+    --blue-glow: rgba(59, 130, 246, 0.4);
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --white: #ffffff;
   }
 
-    * {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--black);
     color: var(--text);
+    line-height: 1.6;
     overflow-x: hidden;
   }
 
-  body::before {
-    content: '';
+  /* Animated Background */
+  .bg-animation {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .bg-animation::before {
+    content: '';
+    position: absolute;
     top: -50%;
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at 20% 20%, rgba(139,92,246,0.25), transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0,255,136,0.2), transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(250,204,21,0.18), transparent 50%);
-    filter: blur(100px);
-    z-index: -1;
-    animation: float 20s ease-in-out infinite;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(6, 182, 212, 0.15), transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.12), transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.08), transparent 60%);
+    animation: bgFloat 25s ease-in-out infinite;
   }
 
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(5%, 5%) scale(1.05); }
+  @keyframes bgFloat {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(2%, 2%) rotate(1deg); }
+    66% { transform: translate(-1%, 1%) rotate(-1deg); }
   }
 
-  .glass {
-    background: var(--glass);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 28px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-    transition: all 0.4s ease;
-  }
-
-  .glass:hover {
-    border: 1px solid rgba(0,255,136,0.2);
-    box-shadow: 0 12px 50px rgba(0,0,0,0.8);
-    transform: translateY(-4px);
-  }
-
-  .glow-green { box-shadow: 0 0 30px rgba(0,255,136,0.35); }
-  .glow-purple { box-shadow: 0 0 30px rgba(139,92,246,0.35); }
-  .glow-gold { box-shadow: 0 0 30px rgba(250,204,21,0.35); }
-
-  .btn {
-    padding: 16px 36px;
-    border-radius: 50px;
-    border: none;
-    font-weight: 600;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: inline-block;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: 0.5s;
-  }
-
-  .btn:hover::before {
-    left: 100%;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--purple), var(--green));
-    color: var(--black);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(139,92,246,0.5);
-  }
-
-  .btn-buy {
-    background: linear-gradient(135deg, var(--gold), var(--green));
-    color: var(--black);
-    width: 100%;
-    margin-top: 20px;
-  }
-
-  .btn-buy:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(250,204,21,0.5);
-  }
-
+  /* Container */
   .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
   }
 
-  /* Hero */
+  /* Navigation */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 16px 0;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  }
+
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 24px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-links {
+    display: none;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: var(--cyan);
+  }
+
+  .nav-btn {
+    padding: 10px 24px;
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+
+  .nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--cyan-glow);
+  }
+
+  @media (min-width: 768px) {
+    .nav-links {
+      display: flex;
+    }
+  }
+
+  /* Hero Section */
   .hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 40px 20px;
-  }
-
-  .hero h1 {
-    font-size: 48px;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, var(--green), var(--gold), var(--purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: shimmer 3s linear infinite;
-    background-size: 200% 200%;
-  }
-
-  @keyframes shimmer {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .hero p {
-    font-size: 18px;
-    color: var(--muted);
-    margin-bottom: 40px;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Features */
-  .features {
-    padding: 80px 0;
-  }
-
-  .features h2 {
-    text-align: center;
-    font-size: 36px;
-    margin-bottom: 50px;
-    background: linear-gradient(135deg, var(--purple), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .feature-grid {
-    display: grid;
-    gap: 24px;
-  }
-
-  .feature-card {
-    padding: 30px;
-    text-align: left;
+    padding: 120px 24px 80px;
     position: relative;
-    overflow: hidden;
   }
 
-  .feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--purple), var(--green), var(--gold));
-    transform: scaleX(0);
-    transition: transform 0.5s ease;
-  }
-
-  .feature-card:hover::before {
-    transform: scaleX(1);
-  }
-
-  .feature-card h3 {
-    font-size: 22px;
-    margin-bottom: 12px;
-    color: var(--light-green);
-  }
-
-  .feature-card p {
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  /* Shop Section */
-  .shop {
-    padding: 60px 0 120px;
-    display: none;
-  }
-
-  .shop.active {
-    display: block;
-    animation: fadeIn 0.6s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .shop-header {
-    text-align: center;
-    margin-bottom: 50px;
-  }
-
-  .shop-header h2 {
-    font-size: 32px;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, var(--gold), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .shop-header p {
-    color: var(--muted);
-  }
-
-  .bot-grid {
-    display: grid;
-    gap: 24px;
-  }
-
-  .bot-card {
-    padding: 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    transition: transform 0.4s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .bot-card::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(0,255,136,0.1), transparent 40%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-  }
-
-  .bot-card:hover::after {
-    opacity: 1;
-  }
-
-  .bot-card:hover {
-    transform: translateY(-6px) scale(1.01);
-  }
-
-  .bot-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--green);
-    box-shadow: 0 0 20px rgba(0,255,136,0.4);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-  }
-
-  .bot-info {
-    flex: 1;
-    position: relative;
-    z-index: 1;
-  }
-
-  .bot-name {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-
-  .bot-owner {
-    font-size: 15px;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-
-  .bot-number {
-    font-size: 14px;
-    color: var(--muted);
-  }
-
-  .status {
+  .hero-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-top: 8px;
-    backdrop-filter: blur(10px);
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 50px;
+    font-size: 14px;
+    color: var(--cyan);
+    margin-bottom: 24px;
   }
 
-  .status.online {
-    background: rgba(0,255,136,0.15);
-    color: var(--green);
-    border: 1px solid rgba(0,255,136,0.3);
-  }
-
-  .status.offline {
-    background: rgba(139,92,246,0.15);
-    color: var(--purple);
-    border: 1px solid rgba(139,92,246,0.3);
-  }
-
-  .status-dot {
+  .hero-badge-dot {
     width: 8px;
     height: 8px;
+    background: var(--cyan);
     border-radius: 50%;
     animation: pulse 2s infinite;
   }
 
-  .status.online .status-dot {
-    background: var(--green);
-    box-shadow: 0 0 10px var(--green);
-  }
-
-  .status.offline .status-dot {
-    background: var(--purple);
-    box-shadow: 0 0 10px var(--purple);
-  }
-
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.2); }
+    50% { opacity: 0.5; transform: scale(1.2); }
   }
 
+  .hero h1 {
+    font-size: clamp(36px, 8vw, 72px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (min-width: 480px) {
+    .hero-buttons {
+      flex-direction: row;
+    }
+  }
+
+  .btn {
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px var(--cyan-glow);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  .btn-whatsapp {
+    background: #25D366;
+    color: var(--white);
+  }
+
+  .btn-whatsapp:hover {
+    background: #20bd5a;
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(37, 211, 102, 0.3);
+  }
+
+  /* Stats Section */
+  .stats {
+    padding: 60px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: rgba(15, 23, 42, 0.5);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .stat-item h3 {
+    font-size: clamp(32px, 6vw, 48px);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .stat-item p {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* How It Works */
+  .how-it-works {
+    padding: 100px 0;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 50px;
+    font-size: 13px;
+    color: var(--cyan);
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+
+  .section-subtitle {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .steps-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  @media (min-width: 768px) {
+    .steps-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .step-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cyan), var(--blue));
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+
+  .step-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .step-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--cyan);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .step-number {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+    margin: 0 auto 20px;
+  }
+
+  .step-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .step-card p {
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  /* Features */
+  .features {
+    padding: 100px 0;
+    background: rgba(15, 23, 42, 0.3);
+  }
+
+  .features-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  @media (min-width: 768px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-4px);
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(6, 182, 212, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 24px;
+  }
+
+  .feature-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Pricing */
+  .pricing {
+    padding: 100px 0;
+  }
+
+  .pricing-grid {
+    display: grid;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .pricing-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .pricing-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .pricing-card.featured {
+    border-color: var(--cyan);
+    transform: scale(1.05);
+    box-shadow: 0 20px 60px var(--cyan-glow);
+  }
+
+  .pricing-card.featured::before {
+    content: 'POPULAR';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    color: var(--white);
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--cyan);
+  }
+
+  .pricing-card.featured:hover {
+    transform: scale(1.05) translateY(-8px);
+  }
+
+  .pricing-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .pricing-price {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .pricing-price span {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .pricing-desc {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .pricing-features {
+    list-style: none;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+
+  .pricing-features li {
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  }
+
+  .pricing-features li:last-child {
+    border-bottom: none;
+  }
+
+  .check-icon {
+    color: var(--cyan);
+    font-weight: bold;
+  }
+
+  .pricing-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    text-decoration: none;
+    display: block;
+  }
+
+  .pricing-btn-primary {
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    color: var(--white);
+  }
+
+  .pricing-btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .pricing-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Testimonials */
+  .testimonials {
+    padding: 100px 0;
+    background: rgba(15, 23, 42, 0.3);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  @media (min-width: 768px) {
+    .testimonials-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .testimonial-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    transition: all 0.3s;
+  }
+
+  .testimonial-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-4px);
+  }
+
+  .testimonial-stars {
+    color: #fbbf24;
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+
+  .testimonial-text {
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .testimonial-avatar {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--cyan), var(--blue));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .testimonial-info h4 {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .testimonial-info p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* Bots Section */
+  .bots-section {
+    padding: 100px 0;
+    display: none;
+  }
+
+  .bots-section.active {
+    display: block;
+  }
+
+  .bot-grid {
+    display: grid;
+    gap: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .bot-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .bot-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s;
+  }
+
+  .bot-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .bot-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--cyan);
+    flex-shrink: 0;
+  }
+
+  .bot-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .bot-info p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .bot-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .bot-status.online {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .bot-status.offline {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .bot-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* FAQ */
+  .faq {
+    padding: 100px 0;
+  }
+
+  .faq-grid {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .faq-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .faq-item:hover {
+    border-color: var(--cyan);
+  }
+
+  .faq-question {
+    width: 100%;
+    padding: 20px 24px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .faq-question:hover {
+    color: var(--cyan);
+  }
+
+  .faq-icon {
+    font-size: 20px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 500px;
+  }
+
+  .faq-answer-content {
+    padding: 0 24px 20px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* CTA */
+  .cta {
+    padding: 100px 0;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(59, 130, 246, 0.1));
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+
+  .cta p {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (min-width: 480px) {
+    .cta-buttons {
+      flex-direction: row;
+    }
+  }
+
+  /* Footer */
+  .footer {
+    padding: 60px 0 30px;
+    border-top: 1px solid var(--border);
+    background: var(--dark);
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  @media (min-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+    }
+  }
+
+  .footer-brand .logo {
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+
+  .footer-brand p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 12px;
+  }
+
+  .footer-social a {
+    width: 40px;
+    height: 40px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 18px;
+  }
+
+  .footer-social a:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    transform: translateY(-2px);
+  }
+
+  .footer-col h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .footer-col ul {
+    list-style: none;
+  }
+
+  .footer-col li {
+    margin-bottom: 12px;
+  }
+
+  .footer-col a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+
+  .footer-col a:hover {
+    color: var(--cyan);
+  }
+
+  .footer-bottom {
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .footer-bottom p {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* WhatsApp Float Button */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .wa-btn {
+    width: 56px;
+    height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s;
+    font-size: 28px;
+  }
+
+  .wa-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
+  }
+
+  .wa-btn-tooltip {
+    position: absolute;
+    right: 70px;
+    background: var(--card);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    border: 1px solid var(--border);
+  }
+
+  .wa-btn:hover .wa-btn-tooltip {
+    opacity: 1;
+  }
+
+  /* Utility */
   .loading {
     text-align: center;
-    color: var(--muted);
     padding: 40px;
+    color: var(--muted);
   }
 
   .empty {
     text-align: center;
-    color: var(--muted);
     padding: 60px 20px;
-  }
-
-  /* Buy Key Section */
-  .buy-key {
-    margin-top: 60px;
-    padding: 40px 30px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .buy-key::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(250,204,21,0.1));
-    z-index: 0;
-  }
-
-  .buy-key * {
-    position: relative;
-    z-index: 1;
-  }
-
-  .buy-key h3 {
-    font-size: 28px;
-    margin-bottom: 12px;
-    background: linear-gradient(135deg, var(--gold), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .buy-key p {
     color: var(--muted);
-    margin-bottom: 20px;
   }
 
-  /* Get Bot Now Section */
-  .get-bot {
-    margin-top: 40px;
-    padding: 40px 30px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .get-bot::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(0,255,136,0.1));
-    z-index: 0;
-  }
-
-  .get-bot * {
-    position: relative;
-    z-index: 1;
-  }
-
-  .get-bot h3 {
-    font-size: 28px;
-    margin-bottom: 12px;
-    background: linear-gradient(135deg, var(--purple), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .get-bot p {
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
-
-  /* Responsive */
-  @media(min-width: 768px) {
-    .hero h1 { font-size: 72px; }
-    .feature-grid { grid-template-columns: repeat(2, 1fr); }
-    .bot-grid { grid-template-columns: repeat(2, 1fr); }
-    .bot-card { padding: 30px 40px; }
-    .bot-avatar { width: 100px; height: 100px; }
+  /* WhatsApp SVG Icon */
+  .wa-icon {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
   }
 </style>
 </head>
 <body>
 
-<!-- Landing -->
-<section class="hero" id="landing">
-  <div class="container">
-    <h1>Own Your WhatsApp Bot in 60 Seconds</h1>
-    <p>
-      Dgift Shops gives you instant access to premium, fully managed WhatsApp bots. 
-      No technical setup, no servers, no hassle. Just buy, configure, and go live instantly 
-      with enterprise-grade uptime, beautiful dashboards, and 24/7 reliability. 
-      Whether you run a business, community, or automation service, your bot is deployed 
-      and ready in under a minute. Fast, secure, and built for scale.
-    </p>
-    <button class="btn btn-primary glow-purple" id="getStartedBtn">Get Started</button>
+<div class="bg-animation"></div>
 
-    <div class="features">
-      <h2>Why Choose Dgift Shops</h2>
-      <div class="feature-grid">
-        <div class="feature-card glass">
-          <h3>Instant Deployment</h3>
-          <p>Your bot goes live the moment you complete setup. No waiting, no manual configuration, no downtime.</p>
+<!-- Navigation -->
+<nav class="nav">
+  <div class="container nav-content">
+    <div class="logo">Dgift Shops</div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#pricing" class="nav-btn">Get Started</a>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Premium WhatsApp Automation
+    </div>
+    <h1>Your WhatsApp Bot<br><span>Ready in 60 Seconds</span></h1>
+    <p class="hero-subtitle">
+      Deploy powerful WhatsApp bots instantly. No coding, no servers, no hassle. 
+      Perfect for businesses in Tanzania looking to automate customer service and grow.
+    </p>
+    <div class="hero-buttons">
+      <a href="#pricing" class="btn btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        Get Your Bot Now
+      </a>
+      <a href="#how-it-works" class="btn btn-secondary">Learn How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h3>500+</h3>
+        <p>Bots Deployed</p>
+      </div>
+      <div class="stat-item">
+        <h3>99.9%</h3>
+        <p>Uptime Guaranteed</p>
+      </div>
+      <div class="stat-item">
+        <h3>24/7</h3>
+        <p>Support Available</p>
+      </div>
+      <div class="stat-item">
+        <h3>60s</h3>
+        <p>Setup Time</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">How It Works</span>
+      <h2 class="section-title">Get Started in 3 Simple Steps</h2>
+      <p class="section-subtitle">From purchase to deployment in under a minute</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Choose Your Plan</h3>
+        <p>Select the package that fits your needs. From starter to enterprise, we have you covered.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Get Activation Key</h3>
+        <p>Receive your unique activation key instantly via WhatsApp after payment confirmation.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Deploy Your Bot</h3>
+        <p>Enter your key in the panel, configure settings, and your bot goes live immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Features</span>
+      <h2 class="section-title">Everything You Need</h2>
+      <p class="section-subtitle">Powerful features to supercharge your WhatsApp automation</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#9889;</div>
+        <h3>Instant Deploy</h3>
+        <p>Your bot goes live the moment you complete setup. Zero waiting time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128274;</div>
+        <h3>Secure & Private</h3>
+        <p>End-to-end encryption with isolated bot instances for maximum privacy.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128200;</div>
+        <h3>99.9% Uptime</h3>
+        <p>Enterprise-grade infrastructure ensures your bot is always online.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#127918;</div>
+        <h3>Easy Dashboard</h3>
+        <p>Manage everything from one beautiful, intuitive control panel.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128231;</div>
+        <h3>Auto Replies</h3>
+        <p>Set up automated responses to handle customer queries 24/7.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128101;</div>
+        <h3>Group Management</h3>
+        <p>Powerful tools to manage and moderate your WhatsApp groups.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128247;</div>
+        <h3>Media Support</h3>
+        <p>Send images, videos, documents, and stickers automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#127760;</div>
+        <h3>Multi-Language</h3>
+        <p>Support for Swahili, English, and multiple other languages.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Active Bots -->
+<section class="bots-section active" id="bots">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Live Bots</span>
+      <h2 class="section-title">Active Bots on Our Platform</h2>
+      <p class="section-subtitle">See real bots deployed by our customers</p>
+    </div>
+    <div class="bot-grid" id="botGrid">
+      <div class="loading">Loading bots...</div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Pricing</span>
+      <h2 class="section-title">Simple, Transparent Pricing</h2>
+      <p class="section-subtitle">Choose the plan that works for you</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-price">TSh 15K <span>/month</span></div>
+        <p class="pricing-desc">Perfect for individuals</p>
+        <ul class="pricing-features">
+          <li><span class="check-icon">&#10003;</span> 1 Bot Instance</li>
+          <li><span class="check-icon">&#10003;</span> Basic Auto-Reply</li>
+          <li><span class="check-icon">&#10003;</span> Dashboard Access</li>
+          <li><span class="check-icon">&#10003;</span> Email Support</li>
+        </ul>
+        <a href="https://wa.me/255780470905?text=Habari%2C%20nataka%20Starter%20Plan%20ya%20WhatsApp%20Bot" target="_blank" class="pricing-btn pricing-btn-secondary">Get Started</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-name">Business</div>
+        <div class="pricing-price">TSh 35K <span>/month</span></div>
+        <p class="pricing-desc">Best for growing businesses</p>
+        <ul class="pricing-features">
+          <li><span class="check-icon">&#10003;</span> 3 Bot Instances</li>
+          <li><span class="check-icon">&#10003;</span> Advanced Auto-Reply</li>
+          <li><span class="check-icon">&#10003;</span> Group Management</li>
+          <li><span class="check-icon">&#10003;</span> Priority Support</li>
+          <li><span class="check-icon">&#10003;</span> Media Broadcasting</li>
+        </ul>
+        <a href="https://wa.me/255780470905?text=Habari%2C%20nataka%20Business%20Plan%20ya%20WhatsApp%20Bot" target="_blank" class="pricing-btn pricing-btn-primary">Get Started</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-price">TSh 75K <span>/month</span></div>
+        <p class="pricing-desc">For large organizations</p>
+        <ul class="pricing-features">
+          <li><span class="check-icon">&#10003;</span> Unlimited Bots</li>
+          <li><span class="check-icon">&#10003;</span> Custom Features</li>
+          <li><span class="check-icon">&#10003;</span> API Access</li>
+          <li><span class="check-icon">&#10003;</span> Dedicated Support</li>
+          <li><span class="check-icon">&#10003;</span> White Label Option</li>
+        </ul>
+        <a href="https://wa.me/255780470905?text=Habari%2C%20nataka%20Enterprise%20Plan%20ya%20WhatsApp%20Bot" target="_blank" class="pricing-btn pricing-btn-secondary">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Testimonials</span>
+      <h2 class="section-title">What Our Customers Say</h2>
+      <p class="section-subtitle">Real feedback from real businesses</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"Dgift Shops transformed our customer service. Our response time dropped from hours to seconds. Highly recommended for any business in Tanzania!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JM</div>
+          <div class="testimonial-info">
+            <h4>John Mwangi</h4>
+            <p>CEO, Tech Solutions DSM</p>
+          </div>
         </div>
-        <div class="feature-card glass">
-          <h3>Premium Performance</h3>
-          <p>Built on high-performance infrastructure with 99.9% uptime. Your bot stays online when it matters most.</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"Setup was incredibly easy. Within 5 minutes, our bot was live and handling customer inquiries. The support team is amazing too!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AM</div>
+          <div class="testimonial-info">
+            <h4>Amina Mohamed</h4>
+            <p>Owner, Fashion Hub TZ</p>
+          </div>
         </div>
-        <div class="feature-card glass">
-          <h3>Full Control Panel</h3>
-          <p>Manage settings, upload media, and monitor status from one clean dashboard. Everything is at your fingertips.</p>
-        </div>
-        <div class="feature-card glass">
-          <h3>Secure & Private</h3>
-          <p>Each bot runs in isolation with encrypted sessions. Your data and conversations stay private and secure.</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"We manage 10+ groups with over 5000 members. Dgift bot handles moderation perfectly. Worth every shilling!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">PK</div>
+          <div class="testimonial-info">
+            <h4>Peter Kimaro</h4>
+            <p>Community Manager</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Shop -->
-<section class="shop" id="shop">
+<!-- FAQ -->
+<section class="faq" id="faq">
   <div class="container">
-    <div class="shop-header">
-      <h2>Active Bots</h2>
-      <p>Browse live bots deployed through Dgift Shops</p>
+    <div class="section-header">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">Got questions? We have answers</p>
     </div>
-
-    <div class="bot-grid" id="botGrid">
-      <div class="loading">Loading bots...</div>
-    </div>
-
-    <!-- Get Bot Now Section -->
-    <div class="get-bot glass glow-gold">
-      <h3>Get Your Bot Now</h3>
-      <p>Click below to access your bot panel instantly. No keys, no delays.</p>
-      <a href="/panel.html" class="btn btn-buy glow-gold">Get Bot Now</a>
-    </div>
-
-    <div class="buy-key glass glow-green">
-      <h3>Want Your Own Bot?</h3>
-      <p>Get an activation key instantly. Chat with us on WhatsApp to purchase and deploy your bot right now.</p>
-      <a href="https://wa.me/255747470941?text=Hello%20Dgift%20Shops%2C%20I%20want%20to%20buy%20a%20bot%20activation%20key" 
-         target="_blank" 
-         class="btn btn-buy glow-green">
-        Buy Activation Key on WhatsApp
-      </a>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <button class="faq-question">
+          How quickly can I get my bot running?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            Your bot can be live in under 60 seconds! Once you receive your activation key and enter it in the panel, your bot is deployed instantly. No technical knowledge required.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What payment methods do you accept?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            We accept M-Pesa, Tigo Pesa, Airtel Money, bank transfers, and international payments via PayPal. Contact us on WhatsApp to arrange payment.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Is my data secure?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            Absolutely! Each bot runs in complete isolation with encrypted sessions. We never access your conversations or data. Your privacy is our priority.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Can I upgrade or downgrade my plan?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            Yes! You can upgrade or downgrade anytime. Contact our support team and we will adjust your plan immediately with prorated billing.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Do you offer refunds?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-content">
+            We offer a 7-day money-back guarantee for all new customers. If you are not satisfied, contact us within 7 days for a full refund.
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <h2>Ready to Automate Your WhatsApp?</h2>
+    <p>Join 500+ businesses already using Dgift Bot Shops. Get started today!</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/255780470905?text=Habari%2C%20nataka%20kujua%20zaidi%20kuhusu%20WhatsApp%20Bot" target="_blank" class="btn btn-whatsapp">
+        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+      </a>
+      <a href="/panel.html" class="btn btn-primary">Access Bot Panel</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Dgift Shops</div>
+        <p>Premium WhatsApp automation for businesses in Tanzania. Deploy your bot in seconds and transform your customer engagement.</p>
+        <div class="footer-social">
+          <a href="https://wa.me/255780470905" target="_blank" title="WhatsApp 1">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="https://wa.me/255747470905" target="_blank" title="WhatsApp 2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="mailto:sbunnytech@gmail.com" title="Email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="/panel.html">Bot Panel</a></li>
+          <li><a href="https://wa.me/255780470905">Help Center</a></li>
+          <li><a href="mailto:sbunnytech@gmail.com">Email Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://wa.me/255780470905">+255 780 470 905</a></li>
+          <li><a href="https://wa.me/255747470905">+255 747 470 905</a></li>
+          <li><a href="mailto:sbunnytech@gmail.com">sbunnytech@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Dgift Bot Shops. All rights reserved.</p>
+      <p>Made with love in Tanzania</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp Buttons -->
+<div class="whatsapp-float">
+  <a href="https://wa.me/255747470905?text=Habari%2C%20nahitaji%20msaada" target="_blank" class="wa-btn" title="WhatsApp 2">
+    <span class="wa-btn-tooltip">+255 747 470 905</span>
+    <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <a href="https://wa.me/255780470905?text=Habari%2C%20nahitaji%20msaada" target="_blank" class="wa-btn" title="WhatsApp 1">
+    <span class="wa-btn-tooltip">+255 780 470 905</span>
+    <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+
 <script>
-  const getStartedBtn = document.getElementById('getStartedBtn');
-  const landing = document.getElementById('landing');
-  const shop = document.getElementById('shop');
-  const botGrid = document.getElementById('botGrid');
-
-  let autoRefreshInterval = null;
-
-  // Keep existing logic
-  window.addEventListener('DOMContentLoaded', () => {
-    if (sessionStorage.getItem('entered_shop') === 'true') {
-      enterShop(false);
-    }
-  });
-
-  getStartedBtn.addEventListener('click', () => {
-    sessionStorage.setItem('entered_shop', 'true');
-    enterShop(true);
-  });
-
-  function enterShop(scrollSmooth) {
-    landing.style.display = 'none';
-    shop.classList.add('active');
-    loadBots();
-    
-    // Auto refresh every 30 seconds
-    if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-    autoRefreshInterval = setInterval(loadBots, 30000);
-    
-    if (scrollSmooth) {
-      shop.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
+  // Load bots
   async function loadBots() {
+    const botGrid = document.getElementById('botGrid');
     try {
       const res = await fetch('/api/get-bots');
       const bots = await res.json();
@@ -580,19 +1469,18 @@
       }
 
       botGrid.innerHTML = bots.map(bot => `
-        <div class="bot-card glass ${bot.online ? 'glow-green' : 'glow-purple'}">
-          <img src="${bot.imgbb_url || 'https://via.placeholder.com/100/000/00ff88?text=Bot'}" 
+        <div class="bot-card">
+          <img src="${bot.imgbb_url || 'https://via.placeholder.com/72/1e293b/06b6d4?text=Bot'}" 
                alt="${bot.bot_name}" 
                class="bot-avatar"
-               onerror="this.src='https://via.placeholder.com/100/000/00ff88?text=Bot'">
+               onerror="this.src='https://via.placeholder.com/72/1e293b/06b6d4?text=Bot'">
           <div class="bot-info">
-            <div class="bot-name">${escapeHtml(bot.bot_name || 'Unnamed Bot')}</div>
-            <div class="bot-owner">Owner: ${escapeHtml(bot.owner_name || 'Anonymous')}</div>
-            <div class="bot-number">${escapeHtml(bot.owner_number || 'N/A')}</div>
-            <div class="status ${bot.online ? 'online' : 'offline'}">
-              <span class="status-dot"></span>
+            <h3>${escapeHtml(bot.bot_name || 'Unnamed Bot')}</h3>
+            <p>Owner: ${escapeHtml(bot.owner_name || 'Anonymous')}</p>
+            <span class="bot-status ${bot.online ? 'online' : 'offline'}">
+              <span class="bot-status-dot"></span>
               ${bot.online ? 'Online' : 'Offline'}
-            </div>
+            </span>
           </div>
         </div>
       `).join('');
@@ -608,6 +1496,40 @@
     div.textContent = text;
     return div.innerHTML;
   }
+
+  // FAQ Toggle
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      
+      // Open clicked if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    });
+  });
+
+  // Load bots on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    loadBots();
+    // Auto refresh every 30 seconds
+    setInterval(loadBots, 30000);
+  });
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
 </script>
 
 </body>
