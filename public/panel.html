@@ -1,740 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bot Panel - Dgift Shops</title>
-<style>
-  :root {
-    --black: #0a0a0a;
-    --dark-black: #050505;
-    --glass: rgba(18, 22, 28, 0.45);
-    --glass-dim: rgba(18, 22, 28, 0.25);
-    --green: #00ff88;
-    --purple: #8b5cf6;
-    --gold: #facc15;
-    --light-green: #4ade80;
-    --text: #f5f5f5;
-    --muted: #a3a3a3;
-    --error: #ff4d4d;
-  }
-
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-
-  body {
-    background: var(--black);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 20% 20%, rgba(139,92,246,0.25), transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0,255,136,0.2), transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(250,204,21,0.18), transparent 50%);
-    filter: blur(100px);
-    z-index: -1;
-    animation: float 20s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(5%, 5%) scale(1.05); }
-  }
-
- .glass {
-    background: var(--glass);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 28px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-    transition: all 0.4s ease;
-  }
-
- .glass-dim {
-    background: var(--glass-dim);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 20px;
-    opacity: 0.6;
-  }
-
- .glow-green { box-shadow: 0 0 30px rgba(0,255,136,0.35); }
- .glow-purple { box-shadow: 0 0 30px rgba(139,92,246,0.35); }
- .glow-gold { box-shadow: 0 0 30px rgba(250,204,21,0.35); }
-
- .btn {
-    padding: 14px 32px;
-    border-radius: 50px;
-    border: none;
-    font-weight: 600;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: inline-block;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-  }
-
- .btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
- .btn-primary {
-    background: linear-gradient(135deg, var(--purple), var(--green));
-    color: var(--black);
-  }
-
- .btn-primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(139,92,246,0.5);
-  }
-
- .btn-gold {
-    background: linear-gradient(135deg, var(--gold), var(--green));
-    color: var(--black);
-  }
-
- .btn-gold:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(250,204,21,0.5);
-  }
-
- .btn-secondary {
-    background: rgba(255,255,255,0.08);
-    color: var(--text);
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-
- .btn-secondary:hover:not(:disabled) {
-    background: rgba(255,255,255,0.12);
-  }
-
- .btn-error {
-    animation: shake 0.3s ease;
-  }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
-  }
-
- .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
-  }
-
- .login-card {
-    padding: 50px 40px;
-    text-align: center;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
- .login-card h2 {
-    font-size: 28px;
-    margin-bottom: 12px;
-    background: linear-gradient(135deg, var(--purple), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
- .login-card p {
-    color: var(--muted);
-    margin-bottom: 30px;
-  }
-
- .key-input {
-    width: 100%;
-    padding: 16px 24px;
-    border-radius: 50px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(0,0,0,0.4);
-    color: var(--text);
-    font-size: 16px;
-    outline: none;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-  }
-
- .key-input:focus {
-    border-color: var(--green);
-    box-shadow: 0 0 20px rgba(0,255,136,0.3);
-  }
-
- .error-box {
-    background: rgba(255,77,77,0.1);
-    border: 1px solid rgba(255,77,77,0.3);
-    color: var(--error);
-    padding: 14px 20px;
-    border-radius: 16px;
-    margin-top: 16px;
-    font-size: 14px;
-    display: none;
-  }
-
- .success-box {
-    background: rgba(0,255,136,0.1);
-    border: 1px solid rgba(0,255,136,0.3);
-    color: var(--green);
-    padding: 14px 20px;
-    border-radius: 16px;
-    margin-top: 16px;
-    font-size: 14px;
-    display: none;
-  }
-
- .panel {
-    display: none;
-  }
-
- .panel.active {
-    display: block;
-    animation: fadeIn 0.5s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
- .panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
- .panel-header h2 {
-    font-size: 32px;
-    background: linear-gradient(135deg, var(--gold), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
- .panel-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
- .section {
-    margin-bottom: 30px;
-  }
-
- .section-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
- .section-header h3 {
-    font-size: 22px;
-    color: var(--light-green);
-  }
-
- .section-badge {
-    font-size: 12px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    background: rgba(139,92,246,0.2);
-    color: var(--purple);
-    border: 1px solid rgba(139,92,246,0.3);
-  }
-
- .form-grid {
-    display: grid;
-    gap: 20px;
-  }
-
- .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
- .form-group label {
-    font-size: 14px;
-    color: var(--muted);
-    font-weight: 500;
-    text-transform: capitalize;
-  }
-
- .form-group input,
- .form-group select {
-    padding: 14px 20px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(0,0,0,0.4);
-    color: var(--text);
-    font-size: 15px;
-    outline: none;
-    transition: all 0.3s ease;
-  }
-
- .form-group input:focus,
- .form-group select:focus {
-    border-color: var(--green);
-    box-shadow: 0 0 15px rgba(0,255,136,0.2);
-  }
-
- .form-group input:disabled,
- .form-group select:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
- .toggle-group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    border-radius: 16px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-
- .toggle-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
- .toggle-info span {
-    font-size: 15px;
-    font-weight: 500;
-    text-transform: capitalize;
-  }
-
- .toggle-info small {
-    font-size: 13px;
-    color: var(--muted);
-  }
-
- .toggle-switch {
-    position: relative;
-    width: 52px;
-    height: 28px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
- .toggle-switch.active {
-    background: var(--green);
-  }
-
- .toggle-switch::after {
-    content: '';
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    background: white;
-    border-radius: 50%;
-    top: 3px;
-    left: 3px;
-    transition: 0.3s;
-  }
-
- .toggle-switch.active::after {
-    left: 27px;
-  }
-
- .optional-toggle {
-    text-align: center;
-    margin: 30px 0;
-  }
-
- .lock-icon {
-    display: inline-block;
-    margin-right: 6px;
-  }
-
-  @media(min-width: 768px) {
-   .form-grid {
-      grid-template-columns: repeat(2, 1fr);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot Panel - Dgift Shops</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #030712;
+      --dark: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --cyan: #06b6d4;
+      --blue: #3b82f6;
+      --cyan-glow: rgba(6, 182, 212, 0.4);
+      --blue-glow: rgba(59, 130, 246, 0.4);
+      --green: #22c55e;
+      --purple: #8b5cf6;
+      --gold: #facc15;
+      --white: #ffffff;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --error: #ef4444;
     }
-  }
-</style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--black);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    /* Animated background */
+    .bg-animation{
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden;
+    }
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      top: -40%; left: -30vw;
+      width: 180vw; height: 180vh;
+      background:
+        radial-gradient(ellipse at 15% 25%,rgba(6,182,212,0.12),transparent 60%),
+        radial-gradient(ellipse at 95% 90%,rgba(139,92,246,0.09),transparent 55%),
+        radial-gradient(ellipse at 45% 55%,rgba(59,130,246,0.08),transparent 60%);
+      animation: bgFloat 24s ease-in-out infinite;
+    }
+    @keyframes bgFloat {
+      0%,100% {transform:translate(0,0) rotate(0deg)}
+      25% {transform:translate(2vw,3vh) rotate(2deg)}
+      60% {transform:translate(-4vw,2vh) rotate(-3deg)}
+    }
+    .container { max-width: 950px; margin: 0 auto; padding: 64px 20px 20px; }
+    /* Navbar */
+    .nav {
+      position: fixed; left:0; right:0; top:0; z-index:99; background:rgba(15,23,42,0.85); padding: 18px 0 8px; border-bottom:1px solid rgba(51,65,85,0.4); backdrop-filter:blur(18px);
+    }
+    .nav-content { display: flex; justify-content: space-between; align-items: center; max-width: 950px; margin: 0 auto; padding: 0 14px; }
+    .logo {
+      font-size: 22px; font-weight: 800;
+      background:linear-gradient(135deg, var(--cyan),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      letter-spacing: 1.2px;
+    }
+    .panel-nav-btn {
+      padding: 10px 22px; border-radius: 8px;
+      font-weight: 600; font-size: 14px; cursor: pointer; background:linear-gradient(135deg,var(--cyan),var(--blue)); color: #fff; border: none; transition: all .22s; text-decoration: none;
+    }
+    .panel-nav-btn:hover{ box-shadow:0 2px 20px var(--cyan-glow);}
+
+    /* Glass Card Style */
+    .glass {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(148,163,184,0.17);
+      border-radius: 22px;
+      box-shadow: 0 6px 28px rgba(6,182,212,0.10);
+      transition: box-shadow .3s;
+    }
+    .glass:hover { box-shadow: 0 10px 32px var(--cyan-glow); }
+    /* Login Card */
+    .login-card{
+      padding:44px 32px 34px;
+      text-align:center;
+      max-width:420px;
+      margin: 46px auto 20px;
+      box-shadow:0 4px 32px rgba(15,23,42,0.13);
+    }
+    .login-card h2{
+      font-size:28px;
+      margin-bottom:10px;
+      background:linear-gradient(135deg,var(--cyan),var(--blue));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .login-card p{color:var(--muted);margin-bottom:26px;}
+    .key-input{
+      width:100%;padding:14px 24px;border-radius:48px;border:1px solid rgba(6,182,212,0.15);background:rgba(4,6,16,0.18);color:var(--text);font-size:16px;outline:none;margin-bottom:20px;transition:border-color .3s;}
+    .key-input:focus{border-color:var(--cyan);}
+    .error-box, .success-box{
+      padding: 12px 20px; margin-top:12px; border-radius:14px; font-size:15px; display:none;
+    }
+    .error-box{background:rgba(239,68,68,0.14); border:1px solid rgba(239,68,68,0.3); color: var(--error);}
+    .success-box{background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.2);color:var(--green);}
+
+    /* Panel Section */
+    .panel{display:none; margin-top:22px;}
+    .panel.active{display:block; animation:fadeIn .6s;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+    .panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:20px;}
+    .panel-header h2{font-size:26px;font-weight:700;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .panel-header p{color:var(--muted);font-size:14px;margin-top:5px;}
+    .panel-actions{display:flex;gap:12px;flex-wrap:wrap;}
+    /* Custom Button Styles */
+    .btn{padding:13px 28px; border-radius:12px;font-weight:600;font-size:15px;cursor:pointer;transition:all .22s;text-decoration:none;display:inline-flex;align-items:center;gap:9px;border:none;}
+    .btn-primary{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;}
+    .btn-primary:hover{box-shadow:0 6px 24px var(--cyan-glow);transform:translateY(-2px);}
+    .btn-secondary{background:rgba(59,130,246,0.13);color:var(--blue);border:1px solid var(--blue);}
+    .btn-secondary:hover{background:rgba(59,130,246,0.22);}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),var(--cyan));color:var(--black);}
+    .btn-gold:hover{box-shadow:0 6px 22px var(--blue-glow);}
+    .btn-error{background:var(--error)!important;color:#fff!important;}
+    /* Form Grid & Groups */
+    .section{margin-bottom:32px;}
+    .section-header{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+    .section-header h3{font-size:20px;color:var(--cyan);font-weight:700;}
+    .section-badge{
+      font-size:12px;padding:4px 13px;border-radius:18px;background:rgba(6,182,212,0.15); color:var(--cyan);border:1px solid rgba(6,182,212,0.3);text-transform:uppercase;margin-left:8px;font-weight:600;letter-spacing:.01em;
+    }
+    .form-grid{display:grid;gap:16px;}
+    @media(min-width:720px){.form-grid{grid-template-columns:repeat(2,1fr);}}
+    .form-group{display:flex;flex-direction:column;gap:7px;}
+    .form-group label{font-size:14px;color:var(--muted);font-weight:500;text-transform:capitalize;}
+    .form-group input, .form-group select{
+      padding:14px 16px;border-radius:9px;border:1px solid rgba(6,182,212,0.12);background:rgba(0,0,0,0.23);color:var(--text);font-size:15px;outline:none;transition:.2s;}
+    .form-group input:focus, .form-group select:focus{border-color:var(--cyan);}
+    .form-group input:disabled,.form-group select:disabled{opacity:.55;cursor:not-allowed;}
+    .toggle-group{
+      display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-radius:12px;background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.07);}
+    .toggle-info{display:flex;flex-direction:column;gap:2px;}
+    .toggle-info span{font-size:15px;font-weight:500;text-transform:capitalize;}
+    .toggle-info small{font-size:13px;color:var(--muted);}
+    .toggle-switch{
+      position:relative;width:45px;height:25px;background:rgba(6,182,212,0.16);border-radius:21px;cursor:pointer;transition:0.25s;}
+    .toggle-switch.active{background:var(--cyan);}
+    .toggle-switch::after{
+      content:'';position:absolute;width:19px;height:19px;background:#fff;border-radius:50%;top:3px;left:3px;transition:.25s;}
+    .toggle-switch.active::after{left:23px;}
+  </style>
 </head>
 <body>
-
+<div class="bg-animation"></div>
+<nav class="nav">
+  <div class="nav-content">
+    <span class="logo">Dgift Bot Panel</span>
+    <a href="/" class="panel-nav-btn">Home</a>
+  </div>
+</nav>
 <div class="container">
   <!-- Login Section -->
   <div id="loginSection">
-    <div class="login-card glass glow-purple">
+    <div class="login-card glass">
       <h2>Access Your Bot Panel</h2>
       <p>Enter your activation key to manage your bot settings</p>
       <input type="text" id="keyInput" class="key-input" placeholder="Enter your activation key" autocomplete="off">
-      <button class="btn btn-primary glow-purple" id="verifyBtn" style="width: 100%;">Verify & Continue</button>
+      <button class="btn btn-primary" id="verifyBtn" style="width:100%;">Verify & Continue</button>
       <div class="error-box" id="loginError"></div>
     </div>
   </div>
-
   <!-- Panel Section -->
   <div class="panel" id="panelSection">
     <div class="panel-header">
       <div>
         <h2 id="panelTitle">Bot Settings</h2>
-        <p style="color: var(--muted); font-size: 14px;" id="instanceInfo"></p>
+        <p id="instanceInfo"></p>
       </div>
       <div class="panel-actions">
         <button class="btn btn-secondary" id="goToBotBtn">Go to Bot</button>
-        <button class="btn btn-gold glow-gold" id="saveBtn">Save Changes</button>
+        <button class="btn btn-gold" id="saveBtn">Save Changes</button>
       </div>
     </div>
-
     <div class="success-box" id="saveSuccess">Settings saved successfully!</div>
     <div class="error-box" id="saveError"></div>
-
     <!-- Dynamic Settings -->
     <div id="dynamicSettings"></div>
   </div>
 </div>
-
 <script>
-  const STORAGE_KEY = 'dgift_panel_key'
-  const STORAGE_INSTANCE = 'dgift_panel_instance'
-
-  let currentKey = null
-  let currentInstance = null
-  let currentSettings = {}
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const savedKey = localStorage.getItem(STORAGE_KEY)
-    const savedInstance = localStorage.getItem(STORAGE_INSTANCE)
-
-    if (savedKey && savedInstance) {
-      currentKey = savedKey
-      currentInstance = savedInstance
-      loadSettings()
-    }
-
-    const verifyBtn = document.getElementById('verifyBtn')
-    const saveBtn = document.getElementById('saveBtn')
-    const keyInput = document.getElementById('keyInput')
-
-    verifyBtn.addEventListener('click', handleVerify)
-    keyInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') handleVerify()
+// --- Panel Script (No logic changed, just formatting improved for UI enhancements) ---
+const STORAGE_KEY = 'dgift_panel_key'
+const STORAGE_INSTANCE = 'dgift_panel_instance'
+let currentKey = null
+let currentInstance = null
+let currentSettings = {}
+window.addEventListener('DOMContentLoaded', () => {
+  const savedKey = localStorage.getItem(STORAGE_KEY)
+  const savedInstance = localStorage.getItem(STORAGE_INSTANCE)
+  if (savedKey && savedInstance) {
+    currentKey = savedKey
+    currentInstance = savedInstance
+    loadSettings()
+  }
+  const verifyBtn = document.getElementById('verifyBtn')
+  const saveBtn = document.getElementById('saveBtn')
+  const keyInput = document.getElementById('keyInput')
+  verifyBtn.addEventListener('click', handleVerify)
+  keyInput.addEventListener('keypress', e => {if (e.key === 'Enter') handleVerify()})
+  keyInput.addEventListener('input', () => resetButtonState(verifyBtn))
+  saveBtn.addEventListener('click', handleSave)
+  document.getElementById('goToBotBtn').addEventListener('click', goToBot)
+})
+async function handleVerify() {
+  const key = document.getElementById('keyInput').value.trim()
+  hideError('loginError')
+  resetButtonState(document.getElementById('verifyBtn'))
+  if (!key) {
+    showError('loginError','Please enter your activation key','verifyBtn')
+    return
+  }
+  setLoading('verifyBtn', true)
+  try {
+    const res = await fetch('/api/activate-key', {
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key})
     })
-    keyInput.addEventListener('input', () => resetButtonState(verifyBtn))
-
-    saveBtn.addEventListener('click', handleSave)
-    document.getElementById('goToBotBtn').addEventListener('click', goToBot)
+    const text = await res.text()
+    let data
+    try{ data = JSON.parse(text) }catch{ data = { error:text } }
+    if (!res.ok) throw new Error(data.error || 'Invalid key')
+    currentKey = key
+    currentInstance = data.instance_id
+    localStorage.setItem(STORAGE_KEY, key)
+    localStorage.setItem(STORAGE_INSTANCE, data.instance_id)
+    await loadSettings()
+  } catch(err) {
+    showError('loginError',err.message,'verifyBtn')
+  } finally { setLoading('verifyBtn', false) }
+}
+async function loadSettings() {
+  setLoading('verifyBtn', true)
+  try {
+    const res = await fetch(`/api/get-settings?key=${encodeURIComponent(currentKey)}&instance_id=${encodeURIComponent(currentInstance)}`)
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || 'Failed to load settings')
+    currentSettings = data
+    showPanel(data)
+  } catch (err) {
+    showError('loginError',err.message,'verifyBtn'); logout()
+  } finally { setLoading('verifyBtn', false) }
+}
+function showPanel(settings){
+  document.getElementById('loginSection').style.display = 'none'
+  document.getElementById('panelSection').classList.add('active')
+  document.getElementById('panelTitle').textContent = settings.botname || 'Bot Settings'
+  document.getElementById('instanceInfo').textContent = `Instance: ${currentInstance}`
+  renderDynamicFields(settings)
+}
+function renderDynamicFields(settings){
+  const container = document.getElementById('dynamicSettings')
+  container.innerHTML = ''
+  const editableFields = [], readonlyFields = []
+  Object.keys(settings).forEach(key=>{
+    if (key === 'id' || key === 'instance_id') return
+    const value = settings[key]
+    const isBoolean = typeof value === 'boolean'
+    const isReadonly = key === 'accode' || key === 'settings' || key.includes('created') || key.includes('updated')
+    if (isReadonly) readonlyFields.push({key,value})
+    else if (isBoolean) editableFields.push({key,value,type:'boolean'})
+    else editableFields.push({key,value,type:'text'})
   })
-
-  async function handleVerify() {
-    const key = document.getElementById('keyInput').value.trim()
-    hideError('loginError')
-    resetButtonState(document.getElementById('verifyBtn'))
-
-    if (!key) {
-      showError('loginError', 'Please enter your activation key', 'verifyBtn')
-      return
-    }
-
-    setLoading('verifyBtn', true)
-
-    try {
-      const res = await fetch('/api/activate-key', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ key })
-      })
-
-      const text = await res.text()
-      let data
-      try { data = JSON.parse(text) } catch { data = { error: text } }
-
-      if (!res.ok) throw new Error(data.error || 'Invalid key')
-
-      currentKey = key
-      currentInstance = data.instance_id
-      localStorage.setItem(STORAGE_KEY, key)
-      localStorage.setItem(STORAGE_INSTANCE, data.instance_id)
-
-      await loadSettings()
-    } catch (err) {
-      showError('loginError', err.message, 'verifyBtn')
-    } finally {
-      setLoading('verifyBtn', false)
-    }
-  }
-
-  async function loadSettings() {
-    setLoading('verifyBtn', true)
-
-    try {
-      const res = await fetch(`/api/get-settings?key=${encodeURIComponent(currentKey)}&instance_id=${encodeURIComponent(currentInstance)}`)
-      const data = await res.json()
-
-      if (!res.ok) throw new Error(data.error || 'Failed to load settings')
-
-      currentSettings = data
-      showPanel(data)
-    } catch (err) {
-      showError('loginError', err.message, 'verifyBtn')
-      logout()
-    } finally {
-      setLoading('verifyBtn', false)
-    }
-  }
-
-  function showPanel(settings) {
-    document.getElementById('loginSection').style.display = 'none'
-    document.getElementById('panelSection').classList.add('active')
-
-    document.getElementById('panelTitle').textContent = settings.botname || 'Bot Settings'
-    document.getElementById('instanceInfo').textContent = `Instance: ${currentInstance}`
-
-    renderDynamicFields(settings)
-  }
-
-  function renderDynamicFields(settings) {
-    const container = document.getElementById('dynamicSettings')
-    container.innerHTML = ''
-
-    const editableFields = []
-    const readonlyFields = []
-
-    Object.keys(settings).forEach(key => {
-      if (key === 'id' || key === 'instance_id') return
-
-      const value = settings[key]
-      const isBoolean = typeof value === 'boolean'
-      const isReadonly = key === 'accode' || key === 'settings' || key.includes('created') || key.includes('updated')
-
-      if (isReadonly) {
-        readonlyFields.push({ key, value })
-      } else if (isBoolean) {
-        editableFields.push({ key, value, type: 'boolean' })
-      } else {
-        editableFields.push({ key, value, type: 'text' })
+  // Editable Section
+  if(editableFields.length>0){
+    const section=document.createElement('div')
+    section.className='section';
+    section.innerHTML = `
+      <div class="section-header">
+        <h3>Editable Settings</h3>
+        <span class="section-badge">Can Edit</span>
+      </div>
+      <div class="form-grid glass" style="padding:24px 15px;" id="editableGrid"></div>
+    `
+    container.appendChild(section)
+    const grid=section.querySelector('#editableGrid')
+    editableFields.forEach(field=>{
+      if(field.type==='boolean'){
+        grid.innerHTML+=`
+          <div class="toggle-group glass">
+            <div class="toggle-info">
+              <span>${field.key.replace(/_/g,' ')}</span>
+              <small>Toggle this setting</small>
+            </div>
+            <div class="toggle-switch ${field.value?'active':''}" data-field="${field.key}"></div>
+          </div>`
+      }else{
+        grid.innerHTML+=`
+        <div class="form-group">
+          <label>${field.key.replace(/_/g,' ')}</label>
+          <input type="text" id="${field.key}" value="${field.value||''}">
+        </div>`
       }
     })
-
-    // Render editable section
-    if (editableFields.length > 0) {
-      const section = document.createElement('div')
-      section.className = 'section'
-      section.innerHTML = `
-        <div class="section-header">
-          <h3>Editable Settings</h3>
-          <span class="section-badge">Can Edit</span>
-        </div>
-        <div class="form-grid glass" style="padding: 30px;" id="editableGrid"></div>
-      `
-      container.appendChild(section)
-
-      const grid = section.querySelector('#editableGrid')
-
-      editableFields.forEach(field => {
-        if (field.type === 'boolean') {
-          grid.innerHTML += `
-            <div class="toggle-group glass">
-              <div class="toggle-info">
-                <span>${field.key.replace(/_/g, ' ')}</span>
-                <small>Toggle this setting</small>
-              </div>
-              <div class="toggle-switch ${field.value? 'active' : ''}" data-field="${field.key}"></div>
-            </div>
-          `
-        } else {
-          grid.innerHTML += `
-            <div class="form-group">
-              <label>${field.key.replace(/_/g, ' ')}</label>
-              <input type="text" id="${field.key}" value="${field.value || ''}">
-            </div>
-          `
-        }
+    // Events
+    grid.querySelectorAll('.toggle-switch').forEach(toggle=>{
+      toggle.addEventListener('click',()=>{
+        toggle.classList.toggle('active')
+        resetButtonState(document.getElementById('saveBtn'))
       })
-
-      // Attach events
-      grid.querySelectorAll('.toggle-switch').forEach(toggle => {
-        toggle.addEventListener('click', () => {
-          toggle.classList.toggle('active')
-          resetButtonState(document.getElementById('saveBtn'))
-        })
-      })
-
-      grid.querySelectorAll('input').forEach(input => {
-        input.addEventListener('input', () => resetButtonState(document.getElementById('saveBtn')))
-      })
-    }
-
-    // Render readonly section
-    if (readonlyFields.length > 0) {
-      const section = document.createElement('div')
-      section.className = 'section'
-      section.innerHTML = `
-        <div class="section-header">
-          <h3>Other Settings</h3>
-          <span class="section-badge" style="background: rgba(163,163,163,0.2); color: var(--muted); border-color: rgba(163,163,163,0.3);">Read Only</span>
-        </div>
-        <div class="form-grid glass-dim" style="padding: 30px;" id="readonlyGrid"></div>
-      `
-      container.appendChild(section)
-
-      const grid = section.querySelector('#readonlyGrid')
-
-      readonlyFields.forEach(field => {
-        grid.innerHTML += `
-          <div class="form-group">
-            <label>${field.key.replace(/_/g, ' ')}</label>
-            <input type="text" id="${field.key}" value="${typeof field.value === 'object'? JSON.stringify(field.value) : field.value || ''}" disabled>
-          </div>
-        `
-      })
-    }
+    })
+    grid.querySelectorAll('input').forEach(input=>{
+      input.addEventListener('input',()=>resetButtonState(document.getElementById('saveBtn')))
+    })
   }
-
-  async function handleSave() {
-    hideError('saveError')
-    hideSuccess('saveSuccess')
-    resetButtonState(document.getElementById('saveBtn'))
-    setLoading('saveBtn', true)
-
-    try {
-      const payload = {
-        key: currentKey,
-        instance_id: currentInstance
-      }
-
-      // Collect all editable fields dynamically
-      document.querySelectorAll('#editableGrid input, #editableGrid.toggle-switch').forEach(el => {
-        const field = el.id || el.getAttribute('data-field')
-        if (el.classList.contains('toggle-switch')) {
-          payload[field] = el.classList.contains('active')
-        } else {
-          payload[field] = el.value
-        }
-      })
-
-      const res = await fetch('/api/save-settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) throw new Error(data.error || 'Failed to save')
-
-      showSuccess('saveSuccess')
-      setTimeout(() => hideSuccess('saveSuccess'), 3000)
-
-      // Reload to show updated data
-      await loadSettings()
-    } catch (err) {
-      showError('saveError', err.message, 'saveBtn')
-    } finally {
-      setLoading('saveBtn', false)
-    }
+  // Readonly Section
+  if(readonlyFields.length>0){
+    const section=document.createElement('div')
+    section.className='section';
+    section.innerHTML=`
+      <div class="section-header">
+        <h3>Other Settings</h3>
+        <span class="section-badge" style="background:rgba(148,163,184,0.11);color:var(--muted);border-color:rgba(148,163,184,0.17);">Read Only</span>
+      </div>
+      <div class="form-grid glass" style="padding:24px 15px;opacity:.55;" id="readonlyGrid"></div>
+    `
+    container.appendChild(section)
+    const grid=section.querySelector('#readonlyGrid')
+    readonlyFields.forEach(field=>{
+      grid.innerHTML+=`
+        <div class="form-group">
+          <label>${field.key.replace(/_/g,' ')}</label>
+          <input type="text" id="${field.key}" value="${typeof field.value==='object'?JSON.stringify(field.value):field.value||''}" disabled>
+        </div>`
+    })
   }
-
-  async function goToBot() {
-    try {
-      const res = await fetch(`/api/get-instance?key=${encodeURIComponent(currentKey)}&instance_id=${encodeURIComponent(currentInstance)}`)
-      const data = await res.json()
-
-      if (!res.ok) throw new Error(data.error || 'Failed to get instance')
-
-      if (data.render_url) {
-        window.open(data.render_url, '_blank')
-      } else {
-        showError('saveError', 'Render URL not found', 'saveBtn')
-      }
-    } catch (err) {
-      showError('saveError', err.message, 'saveBtn')
-    }
-  }
-
-  function showError(id, msg, btnId = null) {
-    const el = document.getElementById(id)
-    if (!el) return
-    el.textContent = msg
-    el.style.display = 'block'
-
-    if (btnId) {
-      const btn = document.getElementById(btnId)
-      btn.classList.add('btn-error')
-      btn.style.background = 'var(--error)'
-      btn.style.color = '#fff'
-      btn.textContent = 'Error'
-    }
-  }
-
-  function hideError(id) {
-    const el = document.getElementById(id)
-    if (!el) return
-    el.style.display = 'none'
-  }
-
-  function showSuccess(id) {
-    const el = document.getElementById(id)
-    if (!el) return
-    el.style.display = 'block'
-  }
-
-  function hideSuccess(id) {
-    const el = document.getElementById(id)
-    if (!el) return
-    el.style.display = 'none'
-  }
-
-  function setLoading(id, loading) {
-    const btn = document.getElementById(id)
-    if (!btn) return
-    if (loading) {
-      btn.disabled = true
-      btn.textContent = 'Processing...'
-    } else {
-      btn.disabled = false
-      if (!btn.classList.contains('btn-error')) {
-        if (id === 'verifyBtn') btn.textContent = 'Verify & Continue'
-        if (id === 'saveBtn') btn.textContent = 'Save Changes'
-      }
-    }
-  }
-
-  function resetButtonState(btn) {
-    if (!btn) return
-    if (btn.classList.contains('btn-error')) {
-      btn.classList.remove('btn-error')
-      btn.style.background = ''
-      btn.style.color = ''
-      if (btn.id === 'verifyBtn') btn.textContent = 'Verify & Continue'
-      if (btn.id === 'saveBtn') btn.textContent = 'Save Changes'
-    }
-  }
-
-  function logout() {
-    localStorage.removeItem(STORAGE_KEY)
-    localStorage.removeItem(STORAGE_INSTANCE)
-    location.reload()
-  }
+}
+async function handleSave(){
+  hideError('saveError')
+  hideSuccess('saveSuccess')
+  resetButtonState(document.getElementById('saveBtn'))
+  setLoading('saveBtn',true)
+  try{
+    const payload={ key:currentKey, instance_id:currentInstance }
+    document.querySelectorAll('#editableGrid input, #editableGrid .toggle-switch').forEach(el=>{
+      const field=el.id||el.getAttribute('data-field')
+      if(el.classList.contains('toggle-switch'))payload[field]=el.classList.contains('active')
+      else payload[field]=el.value
+    })
+    const res=await fetch('/api/save-settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    const data=await res.json()
+    if(!res.ok)throw new Error(data.error||'Failed to save')
+    showSuccess('saveSuccess'); setTimeout(()=>hideSuccess('saveSuccess'),2400)
+    await loadSettings()
+  }catch(err){showError('saveError',err.message,'saveBtn')}
+  finally{setLoading('saveBtn',false)}
+}
+async function goToBot(){
+  try{
+    const res=await fetch(`/api/get-instance?key=${encodeURIComponent(currentKey)}&instance_id=${encodeURIComponent(currentInstance)}`)
+    const data=await res.json()
+    if(!res.ok)throw new Error(data.error||'Failed to get instance')
+    if(data.render_url){window.open(data.render_url,'_blank')}
+    else{showError('saveError','Render URL not found','saveBtn')}
+  }catch(err){showError('saveError',err.message,'saveBtn')}
+}
+function showError(id,msg,btnId=null){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.style.display='block';if(btnId){const btn=document.getElementById(btnId);btn.classList.add('btn-error');btn.style.background='var(--error)';btn.style.color='#fff';btn.textContent='Error'}}
+function hideError(id){const el=document.getElementById(id);if(!el)return;el.style.display='none'}
+function showSuccess(id){const el=document.getElementById(id);if(!el)return;el.style.display='block'}
+function hideSuccess(id){const el=document.getElementById(id);if(!el)return;el.style.display='none'}
+function setLoading(id,loading){const btn=document.getElementById(id);if(!btn)return;if(loading){btn.disabled=true;btn.textContent='Processing...'}else{btn.disabled=false;if(!btn.classList.contains('btn-error')){if(id==='verifyBtn')btn.textContent='Verify & Continue';if(id==='saveBtn')btn.textContent='Save Changes'}}}
+function resetButtonState(btn){if(!btn)return;if(btn.classList.contains('btn-error')){btn.classList.remove('btn-error');btn.style.background='';btn.style.color='';if(btn.id==='verifyBtn')btn.textContent='Verify & Continue';if(btn.id==='saveBtn')btn.textContent='Save Changes'}}
+function logout(){localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(STORAGE_INSTANCE);location.reload()}
 </script>
-
 </body>
 </html>
