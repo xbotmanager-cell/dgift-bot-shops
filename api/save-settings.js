@@ -22,21 +22,40 @@ export default async function handler(req, res) {
   
   if (!instance) return res.status(403).json({ error: 'Unauthorized' })
 
-  // Convert comma-separated strings into arrays to prevent "malformed array literal" errors
-  if (settings.allowed_dms && typeof settings.allowed_dms === 'string') {
-    settings.allowed_dms = settings.allowed_dms.split(',').map(n => n.trim()).filter(Boolean)
+  // Handle allowed_dms
+  if (typeof settings.allowed_dms === 'string') {
+    if (settings.allowed_dms.trim() === '') {
+      settings.allowed_dms = []
+    } else {
+      settings.allowed_dms = settings.allowed_dms.split(',').map(n => n.trim()).filter(Boolean)
+    }
   }
 
-  if (settings.allowed_groups && typeof settings.allowed_groups === 'string') {
-    settings.allowed_groups = settings.allowed_groups.split(',').map(g => g.trim()).filter(Boolean)
+  // Handle allowed_groups
+  if (typeof settings.allowed_groups === 'string') {
+    if (settings.allowed_groups.trim() === '') {
+      settings.allowed_groups = []
+    } else {
+      settings.allowed_groups = settings.allowed_groups.split(',').map(g => g.trim()).filter(Boolean)
+    }
   }
 
-  if (settings.restricted_categories && typeof settings.restricted_categories === 'string') {
-    settings.restricted_categories = settings.restricted_categories.split(',').map(c => c.trim()).filter(Boolean)
+  // Handle restricted_categories
+  if (typeof settings.restricted_categories === 'string') {
+    if (settings.restricted_categories.trim() === '') {
+      settings.restricted_categories = []
+    } else {
+      settings.restricted_categories = settings.restricted_categories.split(',').map(c => c.trim()).filter(Boolean)
+    }
   }
 
-  if (settings.vip_numbers && typeof settings.vip_numbers === 'string') {
-    settings.vip_numbers = settings.vip_numbers.split(',').map(v => v.trim()).filter(Boolean)
+  // Handle vip_numbers
+  if (typeof settings.vip_numbers === 'string') {
+    if (settings.vip_numbers.trim() === '') {
+      settings.vip_numbers = []
+    } else {
+      settings.vip_numbers = settings.vip_numbers.split(',').map(v => v.trim()).filter(Boolean)
+    }
   }
 
   const { error } = await supabase.from('b_settings').update({
